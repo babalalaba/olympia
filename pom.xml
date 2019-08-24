@@ -11,7 +11,7 @@
     <groupId>com.newer</groupId>
     <artifactId>olympia</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>olympain</name>
+    <name>olympia</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
