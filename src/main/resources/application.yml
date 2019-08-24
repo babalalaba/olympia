@@ -1,0 +1,27 @@
+server:
+  port: 8086
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/olympia?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+ # data:
+ #   mongodb:
+ #     uri: mongodb://127.0.0.1:27017/logs
+  #redis:
+    #jedis:
+      #pool:
+      #  min-idle: 0
+       # max-idle: 8
+       # max-active: 8
+mybatis:
+  type-aliases-package: com.newer.olympia.domain
+#logging:
+  #level:
+     #com.newer.mybatis.mapper: debug #输出该包下debug级别及以上级别的日志
+jwt:
+  secret: hsdfsf
+  expiration: 6400
+auth:
+  header: Authorization
