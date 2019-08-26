@@ -15,9 +15,9 @@ public class InterceptiorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-         registry.addInterceptor(createInterceptor()).
+        /* registry.addInterceptor(createInterceptor()).
                  addPathPatterns("/**") //所有路径
-                 .excludePathPatterns(""); //拦截器不会拦截的请求
+                 .excludePathPatterns(""); //拦截器不会拦截的请求*/
     }
 
     @Bean
