@@ -1,5 +1,6 @@
 package com.newer.olympia.controller;
 
+import com.newer.olympia.domain.Privacy;
 import com.newer.olympia.domain.User;
 import com.newer.olympia.service.PersonalCenterService;
 import com.newer.olympia.util.HttpUtils;
@@ -8,10 +9,13 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 //Controller作用模块：个人中心
 //创建人员：易霖
@@ -48,4 +52,22 @@ public class PersonalCenterController {
         }
         return new ResponseEntity<>(false,HttpStatus.OK);
     }
+    @PostMapping("/subPro")
+    public ResponseEntity<?> subPro(User user){
+        int count=personalCenterService.subProByUserId(user);
+        if (count>0){
+            return new ResponseEntity<>(count,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(0,HttpStatus.OK);
+    }
+    @PostMapping("SelPri")
+    public ResponseEntity<?> SelPri(int User_id){
+        List<Privacy> list=personalCenterService.SelPri(User_id);
+
+        if (list!=null){
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(false,HttpStatus.OK);
+    }
+
 }

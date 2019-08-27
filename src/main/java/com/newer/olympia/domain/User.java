@@ -13,8 +13,8 @@ public class User implements Serializable {
     private String User_last_name;//姓氏
     private String User_name;//名
     private String User_email;//邮箱
-    @DateTimeFormat(pattern = "yyyy-MM-dd ")
-    @JsonFormat(pattern = "yyyy-MM-dd ",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date User_birthday;//生日
     private String User_sex;//性别
     private String User_pwd;//密码
