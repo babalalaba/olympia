@@ -1,10 +1,7 @@
 package com.newer.olympia.mapper;
 
-import com.newer.olympia.domain.*;
-import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 @Repository
 public interface UserMapper {
     //查询用户，并显示头像
