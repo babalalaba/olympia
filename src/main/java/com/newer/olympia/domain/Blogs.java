@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 //博文动态
 public class Blogs  implements Serializable {
@@ -19,11 +20,13 @@ public class Blogs  implements Serializable {
     private Date Blogs_time;//发布时间
     private Integer Blogs_like;//点赞数
     private Integer Blogs_state;//博文状态
-
+    private List<User> user;
+    private List<Comment> comment;
     public Blogs() {
     }
 
-    public Blogs(Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state) {
+    public Blogs(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, List<User> user, List<Comment> comment) {
+        Blogs_id = blogs_id;
         User_id = user_id;
         Blogs_content = blogs_content;
         Blogs_type = blogs_type;
@@ -31,6 +34,24 @@ public class Blogs  implements Serializable {
         Blogs_time = blogs_time;
         Blogs_like = blogs_like;
         Blogs_state = blogs_state;
+        this.user = user;
+        this.comment = comment;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 
     public Integer getBlogs_id() {
@@ -95,5 +116,21 @@ public class Blogs  implements Serializable {
 
     public void setBlogs_state(Integer blogs_state) {
         Blogs_state = blogs_state;
+    }
+
+    @Override
+    public String toString() {
+        return "Blogs{" +
+                "Blogs_id=" + Blogs_id +
+                ", User_id=" + User_id +
+                ", Blogs_content='" + Blogs_content + '\'' +
+                ", Blogs_type=" + Blogs_type +
+                ", Blogs_img='" + Blogs_img + '\'' +
+                ", Blogs_time=" + Blogs_time +
+                ", Blogs_like=" + Blogs_like +
+                ", Blogs_state=" + Blogs_state +
+                ", user=" + user +
+                ", comment=" + comment +
+                '}';
     }
 }

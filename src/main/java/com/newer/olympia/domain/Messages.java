@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Messages implements Serializable {
     private static final long serialVersionUID = 4747015961361625261L;
@@ -16,17 +17,26 @@ public class Messages implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date Message_time;//留言时间
     private Integer Message_state;//状态
-
+    private List<User> user;
     public Messages() {
     }
 
-    public Messages(Integer messages_id, Integer messages_user_id, Integer user_id, String message_board, Date message_time, Integer message_state) {
+    public Messages(Integer messages_id, Integer messages_user_id, Integer user_id, String message_board, Date message_time, Integer message_state, List<User> user) {
         Messages_id = messages_id;
         Messages_user_id = messages_user_id;
         User_id = user_id;
         Message_board = message_board;
         Message_time = message_time;
         Message_state = message_state;
+        this.user = user;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 
     public Integer getMessages_id() {
@@ -75,5 +85,18 @@ public class Messages implements Serializable {
 
     public void setMessage_state(Integer message_state) {
         Message_state = message_state;
+    }
+
+    @Override
+    public String toString() {
+        return "Messages{" +
+                "Messages_id=" + Messages_id +
+                ", Messages_user_id=" + Messages_user_id +
+                ", User_id=" + User_id +
+                ", Message_board='" + Message_board + '\'' +
+                ", Message_time=" + Message_time +
+                ", Message_state=" + Message_state +
+                ", user=" + user +
+                '}';
     }
 }
