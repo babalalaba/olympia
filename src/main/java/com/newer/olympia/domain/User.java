@@ -261,4 +261,34 @@ public class User implements Serializable {
     public void setUser_login_time(Date user_login_time) {
         User_login_time = user_login_time;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "User_id=" + User_id +
+                ", User_last_name='" + User_last_name + '\'' +
+                ", User_name='" + User_name + '\'' +
+                ", User_email='" + User_email + '\'' +
+                ", User_birthday=" + User_birthday +
+                ", User_sex='" + User_sex + '\'' +
+                ", User_pwd='" + User_pwd + '\'' +
+                ", User_mobile='" + User_mobile + '\'' +
+                ", User_state='" + User_state + '\'' +
+                ", User_img='" + User_img + '\'' +
+                ", User_province='" + User_province + '\'' +
+                ", User_city='" + User_city + '\'' +
+                ", User_describe='" + User_describe + '\'' +
+                ", User_birthplace='" + User_birthplace + '\'' +
+                ", User_job='" + User_job + '\'' +
+                ", User_marriage='" + User_marriage + '\'' +
+                ", User_faith='" + User_faith + '\'' +
+                ", User_politics='" + User_politics + '\'' +
+                ", User_time=" + User_time +
+                ", User_count=" + User_count +
+                ", User_authentication=" + User_authentication +
+                ", User_id_card='" + User_id_card + '\'' +
+                ", User_safety=" + User_safety +
+                ", User_login_time=" + User_login_time +
+                '}';
+    }
 }

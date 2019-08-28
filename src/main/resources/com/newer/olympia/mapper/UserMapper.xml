@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.olympia.mapper.UserMapper">
+    <resultMap id="Article_map" type="com.newer.olympia.domain.Messages">
+        <id property="Messages_id" column="Messages_id"></id>
+        <result property="Messages_user_id" column="Messages_user_id"/>
+        <result property="User_id" column="User_id"/>
+        <result property="Message_board" column="Message_board"/>
+        <result property="Message_time" column="Message_time"/>
+        <result property="Message_state" column="Message_state"/>
+        <collection property="user" ofType="com.newer.olympia.domain.User">
+            <result property="User_name" column="User_name"/>
+            <result property="User_img" column="User_img"/>
+        </collection>
+
+
+    </resultMap>
+
+
+    <!--多表查询-->
+    <select id="FindMessages" resultMap="Article_map" parameterType="int">
+            select m.*,u.User_name,u.User_img from Messages m,User u where u.User_id=m.User_id
+            and m.User_id=#{User_id} and Message_state=0
+        </select>
+
+    <resultMap id="Inform_a" type="com.newer.olympia.domain.Inform">
+        <id property="Inform_id" column="Inform_id"></id>
+        <id property="Inform_user_id" column="Inform_user_id"/>
+        <id property="User_id" column="User_id"></id>
+        <result property="Inform_time" column="Inform_time"/>
+        <result property="Inform_board" column="Inform_board"/>
+        <result property="Inform_state" column="Inform_state"/>
+        <collection property="user" ofType="com.newer.olympia.domain.User">
+            <result property="User_name" column="User_name"/>
+            <result property="User_img" column="User_img"/>
+        </collection>
+
+
+    </resultMap>
+    <select id="FindBlogs" resultMap="Inform_a" parameterType="int">
+        select b.*,u.User_name,u.User_img from Inform b,user u where u.User_id=b.Inform_id
+         and b.Inform_id=#{User_id} and Inform_state=0
+    </select>
+
+</mapper>

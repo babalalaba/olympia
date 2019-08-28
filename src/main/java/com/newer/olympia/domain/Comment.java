@@ -78,4 +78,16 @@ public class Comment implements Serializable {
     public void setUser_id(Integer user_id) {
         User_id = user_id;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "Comment_id=" + Comment_id +
+                ", Comment_user_id=" + Comment_user_id +
+                ", Blogs_id=" + Blogs_id +
+                ", Comment_content='" + Comment_content + '\'' +
+                ", Comment_time=" + Comment_time +
+                ", User_id=" + User_id +
+                '}';
+    }
 }

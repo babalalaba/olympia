@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newer.olympia.mapper.HobbiesMapper">
+    <resultMap id="hobbies_h" type="com.newer.olympia.domain.Hobbies">
+        <id property="User_id" column="User_id"></id>
+        <result property="Hobbies_hobby" column="Hobbies_hobby"/>
+        <result property="Hobbies_music" column="Hobbies_music"/>
+        <result property="Hobbies_telecast" column="Hobbies_telecast"/>
+        <result property="Hobbies_book" column="Hobbies_book"/>
+        <result property="Hobbies_movie" column="Hobbies_movie"/>
+        <result property="Hobbies_writer" column="Hobbies_writer"/>
+        <result property="Hobbies_game" column="Hobbies_game"/>
+        <result property="Hobbies_else" column="Hobbies_else"/>
+        <collection property="user" ofType="com.newer.olympia.domain.User">
+            <result property="User_describe" column="User_describe"/>
+        </collection>
+    </resultMap>
+
+    <select id="hobbiesAll" resultMap="hobbies_h" parameterType="int">
+       select h.*,u.User_describe from User u,Hobbies h where h.User_id=u.User_id
+       and h.User_id=#{User_id}
+    </select>
+
+       <resultMap id="blogs_b" type="com.newer.olympia.domain.Blogs">
+            <id property="Blogs_id" column="Blogs_id"></id>
+            <id property="User_id " column="User_id "></id>
+            <result property="Blogs_content" column="Blogs_content"/>
+            <result property="Blogs_type" column="Blogs_type"/>
+            <result property="Blogs_img" column="Blogs_img"/>
+            <result property="Blogs_like" column="Blogs_like"/>
+            <result property="Blogs_state" column="Blogs_state"/>
+            <collection property="user" ofType="com.newer.olympia.domain.User">
+                <result property="User_name" column="User_name"/>
+                <result property="User_img" column="User_img"/>
+            </collection>
+            <collection property="comment" ofType="com.newer.olympia.domain.Comment">
+                <id property="Comment_id" column="Comment_id"></id>
+                <id property="Comment_user_id" column="Comment_user_id"></id>
+                <id property="Blogs_id" column="Blogs_id"></id>
+                <id property="User_id" column="User_id"></id>
+                <result property="Comment_content" column="Comment_content"/>
+                <result property="Comment_time" column="Comment_time"/>
+            </collection>
+        </resultMap>
+    <select id="BlogsAll" resultMap="blogs_b" parameterType="int">
+        select b.*,u.User_id,u.User_name,u.User_img,c.* from blogs b,user u,comment c
+        where b.User_id=u.User_id and b.User_id=c.User_id and b.User_id=#{User_id}
+    </select>
+</mapper>
