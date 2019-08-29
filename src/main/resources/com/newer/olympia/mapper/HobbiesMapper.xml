@@ -48,4 +48,59 @@
         select b.*,u.User_id,u.User_name,u.User_img,c.* from blogs b,user u,comment c
         where b.User_id=u.User_id and b.User_id=c.User_id and b.User_id=#{User_id}
     </select>
+
+    <resultMap id="album_a" type="com.newer.olympia.domain.Album">
+        <id property="Album_id" column="Album_id"></id>
+        <id property="Picture_id" column="Picture_id"></id>
+        <id property="User_id" column="User_id"></id>
+        <result property="Album_name" column="Album_name"/>
+        <result property="Album_describe" column="Album_describe"/>
+        <result property="Album_like" column="Album_like"/>
+        <collection property="user" ofType="com.newer.olympia.domain.User">
+            <id property="User_id" column="User_id"></id>
+            <result property="User_name" column="User_name"/>
+        </collection>
+        <collection property="picture" ofType="com.newer.olympia.domain.Picture">
+            <id property="Picture_id" column="Picture_id"></id>
+            <result property="Picture_path" column="Picture_path"/>
+        </collection>
+    </resultMap>
+    <select id="AlbumAll" resultMap="album_a" parameterType="int">
+        select a.*,u.User_id,u.User_name,p.*  from album a,User u,Picture p where a.User_id=u.User_id
+        and a.Picture_id=p.Picture_id and a.User_id=#{User_id}
+    </select>
+
+    <resultMap id="friend_a" type="com.newer.olympia.domain.Friend">
+        <id property="Friend_user_id" column="Friend_user_id"></id>
+        <id property="User_id" column="User_id"></id>
+        <id property="Friend_id" column="Friend_id"></id>
+        <collection property="user" ofType="com.newer.olympia.domain.User">
+            <id property="User_id" column="User_id"></id>
+            <result property="User_img" column="User_img"/>
+        </collection>
+    </resultMap>
+    <select id="FriendAll" resultMap="friend_a" parameterType="int">
+        select f.*,u.* from Friend f,User u where f.User_id=u.User_id and
+        f.User_id=#{User_id}
+    </select>
+
+
+    <resultMap id="Medal_m" type="com.newer.olympia.domain.Medal_user">
+        <id property="Medal_user_id" column="Medal_user_id"></id>
+        <id property="User_id" column="User_id"></id>
+        <id property="Medal_id" column="Medal_id"></id>
+        <collection property="user" ofType="com.newer.olympia.domain.User">
+            <id property="User_id" column="User_id"></id>
+            <result property="User_name" column="User_name"/>
+        </collection>
+        <collection property="medal" ofType="com.newer.olympia.domain.Medal">
+            <id property="Medal_id" column="Medal_id"></id>
+            <result property="Medal_name" column="Medal_name"/>
+            <result property="Medal_img" column="Medal_img"/>
+        </collection>
+    </resultMap>
+    <select id="MedalAll" resultMap="Medal_m" parameterType="int">
+       select m.*,d.*,u.* from Medal_user m,Medal d,User u where m.User_id=u.User_id and
+       m.Medal_id=d.Medal_id and m.User_id=#{User_id}
+    </select>
 </mapper>

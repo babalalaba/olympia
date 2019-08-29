@@ -3,8 +3,7 @@ package com.newer.olympia.service;/*
  *@date 2019/8/28 - 14:04
  * */
 
-import com.newer.olympia.domain.Blogs;
-import com.newer.olympia.domain.Hobbies;
+import com.newer.olympia.domain.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -14,4 +13,10 @@ public interface HobbiesService {
     public List<Hobbies> hobbiesAll(Integer User_id);
     //查询主页博客
     public List<Blogs> BlogsAll(Integer User_id);
+    // 主页相册表展示
+    public List<Album> AlbumAll(Integer User_id);
+    //主页好友头像显示
+    public List<Friend> FriendAll(Integer User_id);
+    //主页勋章显示
+    public List<Medal_user> MedalAll(Integer User_id);
 }
