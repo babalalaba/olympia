@@ -9,18 +9,18 @@ public class Album implements Serializable {
     private Integer Picture_id;//照片id
     private Integer User_id;//用户id
     private String Album_describe;//相册描述
-    private Integer Alblum_like;//点赞数
+    private Integer Album_like;//点赞数
 
     public Album() {
     }
 
-    public Album(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer alblum_like) {
+    public Album(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer album_like) {
         Album_id = album_id;
         Album_name = album_name;
         Picture_id = picture_id;
         User_id = user_id;
         Album_describe = album_describe;
-        Alblum_like = alblum_like;
+        Album_like = album_like;
     }
 
     public Integer getAlbum_id() {
@@ -63,11 +63,11 @@ public class Album implements Serializable {
         Album_describe = album_describe;
     }
 
-    public Integer getAlblum_like() {
-        return Alblum_like;
+    public Integer getAlbum_like() {
+        return Album_like;
     }
 
-    public void setAlblum_like(Integer alblum_like) {
-        Alblum_like = alblum_like;
+    public void setAlbum_like(Integer album_like) {
+        Album_like = album_like;
     }
 }
