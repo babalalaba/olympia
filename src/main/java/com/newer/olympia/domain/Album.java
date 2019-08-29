@@ -27,7 +27,14 @@ public class Album implements Serializable {
         this.user = user;
         this.picture = picture;
     }
-
+    public Album(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer album_like) {
+        Album_id = album_id;
+        Album_name = album_name;
+        Picture_id = picture_id;
+        User_id = user_id;
+        Album_describe = album_describe;
+        Album_like = album_like;
+    }
     public List<Picture> getPicture() {
         return picture;
     }

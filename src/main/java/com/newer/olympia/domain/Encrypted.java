@@ -40,8 +40,9 @@ public class Encrypted implements Serializable {
         return Encrypted_answer;
     }
 
-    public void setEncrypted_answer(String Encrypted_answer) {
-        this.Encrypted_answer = Encrypted_answer;
+
+    public void setEncrypted_answer(String encrypted_answer) {
+        Encrypted_answer = encrypted_answer;
     }
 
     public Integer getUser_id() {

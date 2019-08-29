@@ -1,5 +1,6 @@
 package com.newer.olympia.controller;
 
+import com.newer.olympia.domain.Encrypted;
 import com.newer.olympia.domain.Privacy;
 import com.newer.olympia.domain.User;
 import com.newer.olympia.service.PersonalCenterService;
@@ -9,6 +10,8 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,5 +72,61 @@ public class PersonalCenterController {
         }
         return new ResponseEntity<>(false,HttpStatus.OK);
     }
+    @PostMapping("UpdPri")
+    public ResponseEntity<?>  UpdPri(int Privacy_describe1,int Privacy_describe2,int Privacy_describe3,int Privacy_describe4,
+                                     int User_id){
+        /*for(int i=1;i<=4;i++){
+            Privacy privacy=new Privacy();
+            privacy.setPrivacy_describe(i);
+            if (i==2){
+                privacy.setPrivacy_describe(8);
+            }
+            privacy.setPrivacy_state(Privacy_describe1);
+            privacy.setUser_id(User_id);
+            int count=personalCenterService.UpdPri(privacy);
+            //如果其中一条数据修改失败，则回滚保存的数据
+            if (count==0){
+                try{
+                    System.out.println("问题"+i+"保存失败！抛异常，数据回滚！");
+                    int a=6/0;
+                }catch (Exception e){
 
+                    throw new RuntimeException("没保存成功，抛异常了！！！");
+                }
+                return new ResponseEntity<>(false,HttpStatus.OK);
+            }else {
+                System.out.println("问题"+i+"保存成功！");
+            }
+        }
+        return new ResponseEntity<>(true,HttpStatus.OK);*/
+        try{
+            boolean test=personalCenterService.test(Privacy_describe1,Privacy_describe2,Privacy_describe3,Privacy_describe4,User_id);
+            return new ResponseEntity<>(true,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(false,HttpStatus.OK);
+        }
+
+    }
+
+    //查询密保问题
+    @PostMapping("/selEncQueByUserId")
+    public ResponseEntity<?> selEncQueByUserId(int User_id){
+        List<Encrypted> list=personalCenterService.selEncQueByUserId(User_id);
+        if (list.size()>0){
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(false,HttpStatus.OK);
+    }
+    //验证用户输入的问题与数据库里的是否一致
+    @PostMapping("/selEncAnsByUserId")
+    public ResponseEntity<?> selEncAnsByUserId(String ans1,String ans2,String ans3,int user_id){
+        String ans[]={ans1,ans2,ans3};
+        List<Encrypted> list=personalCenterService.selEncAnsByUserId(user_id);
+        for(int i=0;i<list.size();i++){
+            if (!ans[i].equals(list.get(i).getEncrypted_answer())){
+                return new ResponseEntity<>(false,HttpStatus.OK);
+            };
+        }
+        return new ResponseEntity<>(true,HttpStatus.OK);
+    }
 }
