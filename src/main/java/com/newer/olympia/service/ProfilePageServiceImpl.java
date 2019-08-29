@@ -17,7 +17,7 @@ public class ProfilePageServiceImpl implements ProfilePageService{
     }
 
     @Override
-    public List<Comment> selectCommentAllByid(int User_id,int Blogs_id) {
+    public List<FriendComment> selectCommentAllByid(int User_id,int Blogs_id) {
         return profilePageMapper.selectCommentAllByid(User_id,Blogs_id);
     }
 
@@ -45,4 +45,8 @@ public class ProfilePageServiceImpl implements ProfilePageService{
     public User selectUser(int User_id) {
         return profilePageMapper.selectUser(User_id);
     }
+
+
+
+
 }

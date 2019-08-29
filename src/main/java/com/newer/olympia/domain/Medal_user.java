@@ -1,0 +1,55 @@
+package com.newer.olympia.domain;
+
+import java.io.Serializable;
+
+//用户勋章  对象
+public class Medal_user implements Serializable {
+    private static final long serialVersionUID = -1927375953095853142L;
+
+    private  Integer Medal_user_id;
+    private  Integer User_id;
+    private  Integer Medal_id;
+
+    public Medal_user() {
+    }
+
+    public Medal_user(Integer medal_user_id, Integer user_id, Integer medal_id) {
+        Medal_user_id = medal_user_id;
+        User_id = user_id;
+        Medal_id = medal_id;
+    }
+
+    public Integer getMedal_user_id() {
+        return Medal_user_id;
+    }
+
+    public void setMedal_user_id(Integer medal_user_id) {
+        Medal_user_id = medal_user_id;
+    }
+
+    public Integer getUser_id() {
+        return User_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        User_id = user_id;
+    }
+
+    public Integer getMedal_id() {
+        return Medal_id;
+    }
+
+    public void setMedal_id(Integer medal_id) {
+        Medal_id = medal_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Medal_user{" +
+                "Medal_user_id=" + Medal_user_id +
+                ", User_id=" + User_id +
+                ", Medal_id=" + Medal_id +
+                '}';
+    }
+}
+

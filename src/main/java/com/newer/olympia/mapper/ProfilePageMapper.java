@@ -23,8 +23,8 @@ public interface ProfilePageMapper {
     public List<Blogs> selectBlogsAllByid(@Param("User_id") int User_id);
 
     //根据发布的动态ID查询该用户发布的动态下所有的评论
-    @Select("select * from  Comment where User_id=#{User_id} and Blogs_id= #{Blogs_id}")
-    public List<Comment> selectCommentAllByid(@Param("User_id") int User_id,@Param("Blogs_id") int Blogs_id);
+    @Select("select c.*,u.User_name Comment_user_name,u.User_img Comment_user_img from  Comment c,User u where c.User_id=#{User_id} and c.Blogs_id= #{Blogs_id} and u.User_id = c.Comment_user_id")
+    public List<FriendComment> selectCommentAllByid(@Param("User_id") int User_id,@Param("Blogs_id") int Blogs_id);
 
     //根据用户ID和动态ID 查询该动态下的所有评论的评论数
     @Select("SELECT COUNT(Comment_id) FROM COMMENT WHERE User_id=#{User_id} and Blogs_id= #{Blogs_id}")
@@ -42,9 +42,10 @@ public interface ProfilePageMapper {
     @Select("select * from Apply where User_id = #{User_id}")
     public List<Apply> selectApply(int User_id);
 
-
     //根据用户ID 查询用户信息
     @Select("select * from User where User_id = #{User_id}")
     public User selectUser(int User_id);
+
+
 
 }

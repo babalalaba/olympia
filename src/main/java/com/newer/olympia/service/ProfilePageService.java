@@ -9,7 +9,7 @@ public interface ProfilePageService {
     public List<Blogs> selectBlogsAllByid(int User_id);
 
     //根据用户ID和动态ID 查询该动态下的所有评论
-    public List<Comment> selectCommentAllByid(int User_id,int Blogs_id);
+    public List<FriendComment> selectCommentAllByid(int User_id,int Blogs_id);
 
     //根据用户ID和动态ID 查询该动态下的所有评论的评论数
     public int selectCommentCount(int User_id,int Blogs_id);
@@ -25,4 +25,6 @@ public interface ProfilePageService {
 
     //根据用户ID 查询用户信息
     public User selectUser(int User_id);
+
+
 }
