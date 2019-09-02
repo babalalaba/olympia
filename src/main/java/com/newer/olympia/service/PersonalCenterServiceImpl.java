@@ -11,6 +11,8 @@ import java.util.List;
 public interface PersonalCenterServiceImpl {
     public User selUserByUserId(int User_id);
     public int subProByUserId(User user);
+    //更新用户密码
+    public int upPwdByUserId(int User_id,String pwd);
     public List<Privacy> SelPri(int User_id);
     public int UpdPri(Privacy privacy);
     //查询密保问题
@@ -19,4 +21,6 @@ public interface PersonalCenterServiceImpl {
     public List<Encrypted> selEncAnsByUserId(int User_id);
     //更新密保
     public int updEncrypted(Encrypted encrypted);
+    //设置密保
+    public int insEncrypted(Encrypted encrypted);
 }

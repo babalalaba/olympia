@@ -32,6 +32,11 @@ public class PersonalCenterService implements PersonalCenterServiceImpl  {
     }
 
     @Override
+    public int upPwdByUserId(int User_id, String pwd) {
+        return personalCenterMapper.upPwdByUserId(User_id,pwd);
+    }
+
+    @Override
     public List<Privacy> SelPri(int User_id) {
         return personalCenterMapper.SelPri(User_id);
     }
@@ -56,7 +61,12 @@ public class PersonalCenterService implements PersonalCenterServiceImpl  {
     @Override
     //更新密保
     public int updEncrypted(Encrypted encrypted) {
-        return updEncrypted(encrypted);
+        return personalCenterMapper.updEncrypted(encrypted);
+    }
+
+    @Override
+    public int insEncrypted(Encrypted encrypted) {
+        return personalCenterMapper.insEncrypted(encrypted);
     }
 
     @Transactional

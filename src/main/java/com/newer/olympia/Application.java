@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("com.newer.olympia.mapper")
-@MapperScan("com.newer.olympia.mapper")
 
 public class Application {
 

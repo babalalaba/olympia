@@ -3,6 +3,7 @@ package com.newer.olympia.mapper;
 import com.newer.olympia.domain.Encrypted;
 import com.newer.olympia.domain.Privacy;
 import com.newer.olympia.domain.User;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -25,6 +26,9 @@ public interface PersonalCenterMapper {
             ",User_describe=#{User_describe},User_birthplace=#{User_birthplace},User_job=#{User_job},User_marriage=#{User_marriage}" +
             ",User_faith=#{User_faith},User_politics=#{User_politics} where User_id=#{User_id}")
     public int subProByUserId(User user);
+    //更改用户密码
+    @Update("update user set user_pwd=#{pwd} where user_id=#{User_id}")
+    public int upPwdByUserId(int User_id,String pwd);
     //查询权限表返回List<Privacy>集合
     @Select("Select * from privacy where user_id=#{User_id}")
     public List<Privacy> SelPri(int User_id);
@@ -41,5 +45,8 @@ public interface PersonalCenterMapper {
     @Update("update encrypted set Encrypted_question=#{Encrypted_question},Encrypted_answer=#{Encrypted_answer} where user_id=#{user_id}" +
             " and Encrypted_id=#{Encrypted_id}")
     public int updEncrypted(Encrypted encrypted);
+    //添加密保问题方法
+    @Insert("insert into encrypted values(#{Encrypted_id},#{Encrypted_question},#{Encrypted_answer},#{User_id})")
+    public int insEncrypted(Encrypted encrypted);
 
 }
