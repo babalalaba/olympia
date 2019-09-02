@@ -2,6 +2,7 @@ package com.newer.olympia.service;
 
 import com.newer.olympia.domain.*;
 import com.newer.olympia.mapper.ProfilePageMapper;
+import com.newer.olympia.util.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,18 @@ public class ProfilePageServiceImpl implements ProfilePageService{
     private ProfilePageMapper profilePageMapper;
 
     @Override
-    public List<Blogs> selectBlogsAllByid(int User_id) {
+    public List<SyjBlgos> selectBlogsAllByid(int User_id) {
         return profilePageMapper.selectBlogsAllByid(User_id);
     }
 
     @Override
-    public List<FriendComment> selectCommentAllByid(int User_id,int Blogs_id) {
-        return profilePageMapper.selectCommentAllByid(User_id,Blogs_id);
+    public List<FriendComment>  selectCommentAllByid(int User_id, int Blogs_id, int pageNo) {
+        return profilePageMapper.selectCommentAllByid(User_id,Blogs_id,pageNo);
+    }
+
+    @Override
+    public int selectTotlaPage(int Blogs_id) {
+        return profilePageMapper.selectTotlaPage( Blogs_id);
     }
 
     @Override
@@ -46,7 +52,20 @@ public class ProfilePageServiceImpl implements ProfilePageService{
         return profilePageMapper.selectUser(User_id);
     }
 
+    @Override
+    public List<User_table> selectLike(int Blogs_id) {
+        return profilePageMapper.selectLike(Blogs_id);
+    }
 
+    @Override
+    public int insertComment(int Comment_user_id, int Blogs_id, String Comment_content, int User_id) {
+        return profilePageMapper.insertComment(Comment_user_id,Blogs_id,Comment_content,User_id);
+    }
+
+    @Override
+    public int insertUser_table(int User_id, int Blogs_id) {
+        return profilePageMapper.insertUser_table(User_id,Blogs_id);
+    }
 
 
 }

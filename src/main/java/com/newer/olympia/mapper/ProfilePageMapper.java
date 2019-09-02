@@ -2,6 +2,8 @@ package com.newer.olympia.mapper;
 
 
 import com.newer.olympia.domain.*;
+import com.newer.olympia.util.Pager;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -20,11 +22,10 @@ import java.util.List;
 public interface ProfilePageMapper {
     //根据用户ID查询所有发布的动态
     @Select("select * from  Blogs where User_id=#{User_id}")
-    public List<Blogs> selectBlogsAllByid(@Param("User_id") int User_id);
+    public List<SyjBlgos> selectBlogsAllByid(@Param("User_id") int User_id);
 
     //根据发布的动态ID查询该用户发布的动态下所有的评论
-    @Select("select c.*,u.User_name Comment_user_name,u.User_img Comment_user_img from  Comment c,User u where c.User_id=#{User_id} and c.Blogs_id= #{Blogs_id} and u.User_id = c.Comment_user_id")
-    public List<FriendComment> selectCommentAllByid(@Param("User_id") int User_id,@Param("Blogs_id") int Blogs_id);
+    public List<FriendComment> selectCommentAllByid(@Param("User_id") int User_id, @Param("Blogs_id") int Blogs_id, @Param("pageNo")int pageNo);
 
     //根据用户ID和动态ID 查询该动态下的所有评论的评论数
     @Select("SELECT COUNT(Comment_id) FROM COMMENT WHERE User_id=#{User_id} and Blogs_id= #{Blogs_id}")
@@ -47,5 +48,19 @@ public interface ProfilePageMapper {
     public User selectUser(int User_id);
 
 
+    //查询总页数
+    @Select("select count(*) from comment where Blogs_id = #{Blogs_id}")
+    public int  selectTotlaPage(int Blogs_id);
 
+    //查询点赞数
+    @Select("select Status from User_table where Blogs_id=#{Blogs_id}")
+    public List<User_table> selectLike(int Blogs_id);
+
+    //新增评论
+    @Insert("insert into Comment value(null,#{Comment_user_id},#{Blogs_id},#{Comment_content},now(),#{User_id})")
+    public int insertComment(int Comment_user_id,int Blogs_id,String Comment_content,int User_id);
+
+    //新增点赞
+    @Insert("insert into User_table value(null,#{User_id},#{Blogs_id},1,now())")
+    public int insertUser_table(int User_id,int Blogs_id);
 }
