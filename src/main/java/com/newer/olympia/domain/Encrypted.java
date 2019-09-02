@@ -40,6 +40,7 @@ public class Encrypted implements Serializable {
         return Encrypted_answer;
     }
 
+
     public void setEncrypted_answer(String encrypted_answer) {
         Encrypted_answer = encrypted_answer;
     }
