@@ -1,6 +1,7 @@
 package com.newer.olympia.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 public class Friend implements Serializable {
@@ -8,6 +9,24 @@ public class Friend implements Serializable {
     private Integer Friend_user_id;//好友的用户id
     private Integer User_id;//自身的id
     private  Integer Friend_id;//id
+    private Date Friend_time;
+
+    public Date getFriend_time() {
+        return Friend_time;
+    }
+
+    public void setFriend_time(Date friend_time) {
+        Friend_time = friend_time;
+    }
+
+    public Friend(Integer friend_user_id, Integer user_id, Integer friend_id, Date friend_time, List<User> user) {
+        Friend_user_id = friend_user_id;
+        User_id = user_id;
+        Friend_id = friend_id;
+        Friend_time = friend_time;
+        this.user = user;
+    }
+
     private List<User> user;
     public Friend() {
     }
@@ -57,6 +76,7 @@ public class Friend implements Serializable {
                 "Friend_user_id=" + Friend_user_id +
                 ", User_id=" + User_id +
                 ", Friend_id=" + Friend_id +
+                ", Friend_time=" + Friend_time +
                 ", user=" + user +
                 '}';
     }

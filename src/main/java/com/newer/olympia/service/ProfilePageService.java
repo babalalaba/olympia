@@ -3,6 +3,7 @@ package com.newer.olympia.service;
 import com.newer.olympia.domain.*;
 import com.newer.olympia.util.Pager;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ProfilePageService {
@@ -38,4 +39,25 @@ public interface ProfilePageService {
 
     //新增点赞
     public int insertUser_table(int User_id,int Blogs_id);
+
+    //查询用户教育历史
+    public List<Education> selectEducation(int User_id);
+
+    //查询用户工作史
+    public List<Job> selectJob(int User_id);
+
+    //根据用户ID 查询用户好友
+    public List<Friend> selectFriend(int User_id);
+
+    //查询好友数
+    public int selectFriendCount(int User_id);
+
+    //计算上传的相片数量
+    public int selectPictureAmount (int User_id);
+
+    //查询用户博客发布数量
+    public int selectBlogsAmount (int User_id);
+
+    //查询用户成为自己好友的时间
+    public Date selectBecomeTime (int User_id , int Friend_user_id);
 }

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -21,7 +22,7 @@ import java.util.List;
 @Repository
 public interface ProfilePageMapper {
     //根据用户ID查询所有发布的动态
-    @Select("select * from  Blogs where User_id=#{User_id}")
+    @Select("select * from  Blogs where User_id=#{User_id} and Blogs_type=1")
     public List<SyjBlgos> selectBlogsAllByid(@Param("User_id") int User_id);
 
     //根据发布的动态ID查询该用户发布的动态下所有的评论
@@ -63,4 +64,32 @@ public interface ProfilePageMapper {
     //新增点赞
     @Insert("insert into User_table value(null,#{User_id},#{Blogs_id},1,now())")
     public int insertUser_table(int User_id,int Blogs_id);
+
+    //查询用户教育历史
+    @Select("select * from Education where User_id = #{User_id}")
+    public List<Education> selectEducation(int User_id);
+
+    //查询用户工作史
+    @Select("select * from Job where User_id =#{User_id}")
+    public List<Job> selectJob(int User_id);
+
+    //根据用户ID 查询用户好友
+    @Select("select * from Friend where User_id = #{User_id}")
+    public List<Friend> selectFriend(int User_id);
+
+    //查询好友数
+    @Select("select count(*) from Friend where User_id=#{User_id}")
+    public int selectFriendCount(int User_id);
+
+    //查询上传的相片数量
+    @Select("select count(*) from picture where User_id = #{User_id}")
+    public int selectPictureAmount (int User_id);
+
+    //查询用户博客发布数量
+    @Select("select count(*) from Blogs where User_id = #{User_id} and Blogs_type = 2")
+    public int selectBlogsAmount (int User_id);
+
+    //查询用户成为自己好友的时间
+    @Select("select Friend_time from Friend where User_id = #{User_id} and Friend_user_id = #{Friend_user_id}")
+    public Date selectBecomeTime (int User_id ,int Friend_user_id);
 }

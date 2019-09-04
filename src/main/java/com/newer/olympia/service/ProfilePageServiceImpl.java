@@ -6,6 +6,7 @@ import com.newer.olympia.util.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 @Service
 public class ProfilePageServiceImpl implements ProfilePageService{
@@ -65,6 +66,41 @@ public class ProfilePageServiceImpl implements ProfilePageService{
     @Override
     public int insertUser_table(int User_id, int Blogs_id) {
         return profilePageMapper.insertUser_table(User_id,Blogs_id);
+    }
+
+    @Override
+    public List<Education> selectEducation(int User_id) {
+        return profilePageMapper.selectEducation(User_id);
+    }
+
+    @Override
+    public List<Job> selectJob(int User_id) {
+        return profilePageMapper.selectJob(User_id);
+    }
+
+    @Override
+    public List<Friend> selectFriend(int User_id) {
+        return profilePageMapper.selectFriend(User_id);
+    }
+
+    @Override
+    public int selectFriendCount(int User_id) {
+        return profilePageMapper.selectFriendCount(User_id);
+    }
+
+    @Override
+    public int selectPictureAmount(int User_id) {
+        return profilePageMapper.selectPictureAmount(User_id);
+    }
+
+    @Override
+    public int selectBlogsAmount(int User_id) {
+        return profilePageMapper.selectBlogsAmount(User_id);
+    }
+
+    @Override
+    public Date selectBecomeTime(int User_id, int Friend_user_id) {
+        return profilePageMapper.selectBecomeTime(User_id,Friend_user_id);
     }
 
 

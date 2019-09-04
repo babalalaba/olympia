@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /*
@@ -33,9 +34,9 @@ public class ProfilePageController {
         blogs.forEach(blogs1 -> {
           long a =   time-blogs1.getBlogs_time().getTime();
           if(a/(1000*60*60*24)>=30){
-             Double a1 = Double.valueOf(((a/(1000*60*60*24))/30));
+             Double a1 = Double.valueOf(((a/(1000*60*60*24))/30));//long转Double类型
               int a2 =(int)Math.floor(a1);
-              String a3 = a2+"月天前";
+              String a3 = a2+"月前";
               SyjBlgos syjBlgos = new SyjBlgos();
               syjBlgos.setBlogs_content(blogs1.getBlogs_content());
               syjBlgos.setBlogs_id(blogs1.getBlogs_id());
@@ -143,7 +144,7 @@ public class ProfilePageController {
             if(a/(1000*60*60*24)>=30){
                 Double a1 = Double.valueOf(((a/(1000*60*60*24))/30));
                 int a2 =(int)Math.floor(a1);
-                String a3 = a2+"月天前";
+                String a3 = a2+"月前";
                 FriendComment friendComment1 = new FriendComment();
                 friendComment1.setBlogs_id(friendComment.getBlogs_id());//文章ID
                 friendComment1.setComment_content(friendComment.getComment_content());//文章ID对应的评论
@@ -303,5 +304,59 @@ public class ProfilePageController {
                                            @Param("User_id")int User_id){
         int count = profilePageService.insertUser_table(User_id,Blogs_id);
         return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    //查询用户教育历史
+    @PostMapping("selectEducation")
+    public ResponseEntity<?> selectEducation(@Param("User_id")int User_id){
+        List<Education> educations = profilePageService.selectEducation(User_id);
+        return new ResponseEntity<>(educations, HttpStatus.OK);
+    }
+
+    //查询工作史
+    @PostMapping("selectJob")
+    public ResponseEntity<?> selectJob(@Param("User_id")int User_id){
+        List<Job> jobs = profilePageService.selectJob(User_id);
+        return new ResponseEntity<>(jobs, HttpStatus.OK);
+    }
+
+    //查询用户好友
+    @PostMapping("selectFriend")
+    public ResponseEntity<?> selectFriend(@Param("User_id")int User_id){
+        List<Friend> friends = profilePageService.selectFriend(User_id);
+        return new ResponseEntity<>(friends, HttpStatus.OK);
+    }
+
+    //查询用户haoyoushul
+    @PostMapping("selectFriendCount")
+    public ResponseEntity<?> selectFriendCount(@Param("User_id")int User_id){
+        int count = profilePageService.selectFriendCount(User_id);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    //查询上传的照片数量
+    @PostMapping("selectPictureAmount")
+    public ResponseEntity<?> selectPictureAmount(@Param("User_id")int User_id){
+        int count = profilePageService.selectPictureAmount(User_id);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    //查询用户发布的博文数量
+    @PostMapping("selectBlogsAmount")
+    public ResponseEntity<?> selectBlogsAmount(@Param("User_id")int User_id){
+        int count = profilePageService.selectBlogsAmount(User_id);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    //查询该用户成为自己的好友时间
+    @PostMapping("selectBecomeTime")
+    public ResponseEntity<?> selectBecomeTime(@Param("User_id")int User_id,@Param("Friend_user_id")int Friend_user_id){
+        Date date = profilePageService.selectBecomeTime(User_id,Friend_user_id);
+        String time1 = new SimpleDateFormat("yyyy").format(date);//时间转String 取年
+        String time2 = new SimpleDateFormat("MM").format(date);//时间转String 取月
+        String time3 = time1+"年"+time2+"月";//拼接
+        List<String> stringList = new ArrayList<>();
+        stringList.add(time3);
+        return new ResponseEntity<>(stringList, HttpStatus.OK);
     }
 }
