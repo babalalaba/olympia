@@ -4,7 +4,6 @@ package com.newer.olympia.controller;
 import com.newer.olympia.domain.*;
 import com.newer.olympia.service.ProfilePageService;
 import com.newer.olympia.util.Pager;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.Time;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -136,7 +135,7 @@ public class ProfilePageController {
        int totlaPage =  profilePageService.selectTotlaPage(Blogs_id);
         List<FriendComment> friendComments = profilePageService.selectCommentAllByid(User_id,Blogs_id,pageNo1);
         List<FriendComment> commentList = new ArrayList<>();
-        Pager pager = new Pager();
+        Pager<FriendComment> pager = new Pager<FriendComment>();
         long time = new Date().getTime();
         int finalPageNo = pageNo;
         friendComments.forEach(friendComment -> {
@@ -156,9 +155,9 @@ public class ProfilePageController {
                 friendComment1.setComment_user_name(friendComment.getComment_user_name());//评论人
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
-                pager.setResult(commentList);
+                pager.setDatas(commentList);
                 pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setTotalno(totlaPage);
             }else if(a/(1000*60*60)>=24){
                 Double a1 = Double.valueOf(((a/(1000*60*60))/24));
                 int a2 =(int)Math.floor(a1);
@@ -174,9 +173,9 @@ public class ProfilePageController {
                 friendComment1.setComment_user_name(friendComment.getComment_user_name());//评论人
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
-                pager.setResult(commentList);
+                pager.setDatas(commentList);
                 pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setTotalno(totlaPage);
             }else if(a/(1000*60)>=60){
                 Double a1 = Double.valueOf(((a/(1000*60))/60));
                 int a2 =(int)Math.floor(a1);
@@ -192,9 +191,9 @@ public class ProfilePageController {
                 friendComment1.setComment_user_name(friendComment.getComment_user_name());//评论人
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
-                pager.setResult(commentList);
+                pager.setDatas(commentList);
                 pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setTotalno(totlaPage);
             }else if(a/(1000)>=60){
                 Double a1 = Double.valueOf(((a/(1000))/60));
                 int a2 =(int)Math.floor(a1);
@@ -210,9 +209,9 @@ public class ProfilePageController {
                 friendComment1.setComment_user_name(friendComment.getComment_user_name());//评论人
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
-                pager.setResult(commentList);
+                pager.setDatas(commentList);
                 pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setTotalno(totlaPage);
             }else if(a/(1000)<60){
                 Double a1 = Double.valueOf((a/1000));
                 int a2 =(int)Math.floor(a1);
@@ -228,9 +227,9 @@ public class ProfilePageController {
                 friendComment1.setComment_user_name(friendComment.getComment_user_name());//评论人
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
-                pager.setResult(commentList);
+                pager.setDatas(commentList);
                 pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setTotalno(totlaPage);
             }
         });
         return new ResponseEntity<>(pager, HttpStatus.OK);
@@ -322,41 +321,60 @@ public class ProfilePageController {
 
     //查询用户好友
     @PostMapping("selectFriend")
-    public ResponseEntity<?> selectFriend(@Param("User_id")int User_id){
-        List<Friend> friends = profilePageService.selectFriend(User_id);
-        return new ResponseEntity<>(friends, HttpStatus.OK);
+    public ResponseEntity<?> selectFriend(@Param("User_id")int User_id,@Param("PageNo")int PageNo,@Param("PageSize")int PageSize){
+        List<Friend> friends = profilePageService.selectFriend(User_id);//查询用户好友表
+        int count = profilePageService.selectFriendCount(User_id);//根据用户ID 查询出用户的好友数量
+        Pager<ProfilePage_06> pager = new Pager<ProfilePage_06>();
+        int totalPageCount = 0;
+        if ( count % PageSize == 0 ) {
+            totalPageCount = count / PageSize;
+        } else {
+            totalPageCount = count / PageSize + 1;
+        }
+        List<ProfilePage_06> profilePage_06s = new ArrayList<>();
+       int  a =(PageNo-1)*4;
+        if (friends.size()!=0){
+        for (int i =a ;i<friends.size();i++){//遍历用户好友集合
+
+           User user= profilePageService.selectUser(friends.get(i).getFriend_user_id());//首先根据其中的好友ID 来查询好友个人信息
+           int FriendCount = profilePageService.selectFriendCount(friends.get(i).getFriend_user_id());//根据好友ID 查询好友的好友数量
+            int PictureAmount = profilePageService.selectPictureAmount(friends.get(i).getFriend_user_id());//根据好友ID 查询好友上传的照片数量
+            int BlogsAmount = profilePageService.selectBlogsAmount(friends.get(i).getFriend_user_id());//根据好友ID 查询好友发布的博文数量
+            Date date = profilePageService.selectBecomeTime(User_id,friends.get(i).getFriend_user_id());//根据用户ID和好友ID 查询用户与好友成立为好友的时间
+            String time1 = new SimpleDateFormat("yyyy").format(date);//时间转String 取年
+            String time2 = new SimpleDateFormat("MM").format(date);//时间转String 取月
+            String time3 = time1+"年"+time2+"月";//拼接
+            ProfilePage_06 profilePage06 = new ProfilePage_06();//new 一个 对象 set值
+            profilePage06.setUser_id(user.getUser_id());
+            profilePage06.setTitle_img(user.getUser_title_img());
+            profilePage06.setUser_img(user.getUser_img());
+            profilePage06.setUser_name(user.getUser_name());
+            profilePage06.setUser_address(user.getUser_province()+user.getUser_city());
+            profilePage06.setFriendCount(FriendCount);
+            profilePage06.setPhotoCount(PictureAmount);
+            profilePage06.setBlogsCount(BlogsAmount);
+            profilePage06.setIntro(user.getUser_describe());
+            profilePage06.setTime(time3);
+
+            profilePage_06s.add(profilePage06);//将对象存入集合
+        };
+        pager.setDatas(profilePage_06s);
+        pager.setPageNo(PageNo);
+        pager.setTotalno(totalPageCount);
+        pager.setTotalsize(count);
+        pager.setPageSize(PageSize);
+        }else {
+            throw new RuntimeException("没有数据") ;
+        }
+        return new ResponseEntity<>(pager, HttpStatus.OK);
     }
 
-    //查询用户haoyoushul
-    @PostMapping("selectFriendCount")
+
+   @PostMapping("selectFriendCount")
     public ResponseEntity<?> selectFriendCount(@Param("User_id")int User_id){
         int count = profilePageService.selectFriendCount(User_id);
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
-    //查询上传的照片数量
-    @PostMapping("selectPictureAmount")
-    public ResponseEntity<?> selectPictureAmount(@Param("User_id")int User_id){
-        int count = profilePageService.selectPictureAmount(User_id);
-        return new ResponseEntity<>(count, HttpStatus.OK);
-    }
 
-    //查询用户发布的博文数量
-    @PostMapping("selectBlogsAmount")
-    public ResponseEntity<?> selectBlogsAmount(@Param("User_id")int User_id){
-        int count = profilePageService.selectBlogsAmount(User_id);
-        return new ResponseEntity<>(count, HttpStatus.OK);
-    }
-
-    //查询该用户成为自己的好友时间
-    @PostMapping("selectBecomeTime")
-    public ResponseEntity<?> selectBecomeTime(@Param("User_id")int User_id,@Param("Friend_user_id")int Friend_user_id){
-        Date date = profilePageService.selectBecomeTime(User_id,Friend_user_id);
-        String time1 = new SimpleDateFormat("yyyy").format(date);//时间转String 取年
-        String time2 = new SimpleDateFormat("MM").format(date);//时间转String 取月
-        String time3 = time1+"年"+time2+"月";//拼接
-        List<String> stringList = new ArrayList<>();
-        stringList.add(time3);
-        return new ResponseEntity<>(stringList, HttpStatus.OK);
-    }
 }
