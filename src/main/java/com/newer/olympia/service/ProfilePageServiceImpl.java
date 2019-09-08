@@ -2,7 +2,6 @@ package com.newer.olympia.service;
 
 import com.newer.olympia.domain.*;
 import com.newer.olympia.mapper.ProfilePageMapper;
-import com.newer.olympia.util.Pager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -101,6 +100,77 @@ public class ProfilePageServiceImpl implements ProfilePageService{
     @Override
     public Date selectBecomeTime(int User_id, int Friend_user_id) {
         return profilePageMapper.selectBecomeTime(User_id,Friend_user_id);
+    }
+
+    @Override
+    public List<Friend> selectUserByName(int User_id,String User_name) {
+        return profilePageMapper.selectUserByName(User_id,User_name);
+    }
+
+    @Override
+    public int selectFriendCountByName(int User_id, String User_name) {
+        return profilePageMapper.selectFriendCountByName(User_id,User_name);
+    }
+
+    @Override
+    public int deleteFriend(int User_id, int Friend_user_id) {
+        return profilePageMapper.deleteFriend(User_id,Friend_user_id);
+    }
+
+    @Override
+    public Album selectAlbum(String Album_name,int User_id) {
+        return profilePageMapper.selectAlbum(Album_name,User_id);
+    }
+
+    @Override
+    public int insertAlbum(String Album_name, int Picture_id, int User_id, String Album_describe) {
+        return profilePageMapper.insertAlbum(Album_name,Picture_id,User_id,Album_describe);
+    }
+
+    @Override
+    public Picture selectPictureByPath(String Picture_path, int User_id) {
+        return profilePageMapper.selectPictureByPath(Picture_path,User_id);
+    }
+
+    @Override
+    public int insertpicture(String Picture_path, int User_id,String Album_name) {
+        return profilePageMapper.insertpicture(Picture_path,User_id,Album_name);
+    }
+
+    @Override
+    public int selectPictureCount(String Album_name) {
+        return profilePageMapper.selectPictureCount(Album_name);
+    }
+
+    @Override
+    public int selectAlbum_commentCount(int Album_id) {
+        return profilePageMapper.selectAlbum_commentCount(Album_id);
+    }
+
+
+    @Override
+    public List<Album> selectAlbumAll(int User_id) {
+        return profilePageMapper.selectAlbumAll(User_id);
+    }
+
+    @Override
+    public int selectAlbumCount(int User_id) {
+        return profilePageMapper.selectAlbumCount(User_id);
+    }
+
+    @Override
+    public String selectPicture_pathById(int Picture_id) {
+        return profilePageMapper.selectPicture_pathById(Picture_id);
+    }
+
+    @Override
+    public List<Picture>  selectPicture(String Album_name, int User_id) {
+        return profilePageMapper.selectPicture(Album_name,User_id);
+    }
+
+    @Override
+    public Picture selectPictureById(int Picture_id) {
+        return profilePageMapper.selectPictureById(Picture_id);
     }
 
 

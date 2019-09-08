@@ -9,15 +9,25 @@ public class Picture implements Serializable {
     private  Integer Picture_id;//
     private String Picture_path;//图片上传路径
     private Integer User_id;//用户id
+    private String Album_name;//相册名
     private List<User> user;
     public Picture() {
     }
 
-    public Picture(Integer picture_id, String picture_path, Integer user_id, List<User> user) {
+    public Picture(Integer picture_id, String picture_path, Integer user_id, String album_name, List<User> user) {
         Picture_id = picture_id;
         Picture_path = picture_path;
         User_id = user_id;
+        Album_name = album_name;
         this.user = user;
+    }
+
+    public String getAlbum_name() {
+        return Album_name;
+    }
+
+    public void setAlbum_name(String album_name) {
+        Album_name = album_name;
     }
 
     public List<User> getUser() {

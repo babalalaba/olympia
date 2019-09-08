@@ -1,5 +1,6 @@
 package com.newer.olympia.domain;
 
+import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,43 +13,23 @@ public class Album implements Serializable {
     private Integer User_id;//用户id
     private String Album_describe;//相册描述
     private Integer Album_like;//点赞数
+    private Data Album_time;
     private List<User> user;
     private List<Picture> picture;
+
     public Album() {
     }
 
-    public Album(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer album_like, List<User> user, List<Picture> picture) {
+    public Album(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer album_like, Data album_time, List<User> user, List<Picture> picture) {
         Album_id = album_id;
         Album_name = album_name;
         Picture_id = picture_id;
         User_id = user_id;
         Album_describe = album_describe;
         Album_like = album_like;
+        Album_time = album_time;
         this.user = user;
         this.picture = picture;
-    }
-    public Album(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer album_like) {
-        Album_id = album_id;
-        Album_name = album_name;
-        Picture_id = picture_id;
-        User_id = user_id;
-        Album_describe = album_describe;
-        Album_like = album_like;
-    }
-    public List<Picture> getPicture() {
-        return picture;
-    }
-
-    public void setPicture(List<Picture> picture) {
-        this.picture = picture;
-    }
-
-    public List<User> getUser() {
-        return user;
-    }
-
-    public void setUser(List<User> user) {
-        this.user = user;
     }
 
     public Integer getAlbum_id() {
@@ -99,6 +80,30 @@ public class Album implements Serializable {
         Album_like = album_like;
     }
 
+    public Data getAlbum_time() {
+        return Album_time;
+    }
+
+    public void setAlbum_time(Data album_time) {
+        Album_time = album_time;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
+    }
+
+    public List<Picture> getPicture() {
+        return picture;
+    }
+
+    public void setPicture(List<Picture> picture) {
+        this.picture = picture;
+    }
+
     @Override
     public String toString() {
         return "Album{" +
@@ -108,6 +113,7 @@ public class Album implements Serializable {
                 ", User_id=" + User_id +
                 ", Album_describe='" + Album_describe + '\'' +
                 ", Album_like=" + Album_like +
+                ", Album_time=" + Album_time +
                 ", user=" + user +
                 ", picture=" + picture +
                 '}';

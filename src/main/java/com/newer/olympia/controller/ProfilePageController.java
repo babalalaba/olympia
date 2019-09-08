@@ -8,12 +8,21 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /*
 /Controller作用模块 个人主页
@@ -321,9 +330,17 @@ public class ProfilePageController {
 
     //查询用户好友
     @PostMapping("selectFriend")
-    public ResponseEntity<?> selectFriend(@Param("User_id")int User_id,@Param("PageNo")int PageNo,@Param("PageSize")int PageSize){
-        List<Friend> friends = profilePageService.selectFriend(User_id);//查询用户好友表
-        int count = profilePageService.selectFriendCount(User_id);//根据用户ID 查询出用户的好友数量
+    public ResponseEntity<?> selectFriend(@Param("User_id")int User_id,@Param("PageNo")int PageNo,@Param("PageSize")int PageSize,@Param("User_name")String User_name){
+       List<Friend> friends = new ArrayList<>();
+       int count = 0;
+        if (User_name!=null||User_name!=""){
+            friends = profilePageService.selectUserByName(User_id,User_name);
+            count = profilePageService.selectFriendCountByName(User_id,User_name);//根据用户ID 查询出用户的好友数量
+        }else {
+            friends = profilePageService.selectFriend(User_id);//查询用户好友表
+             count = profilePageService.selectFriendCount(User_id);//根据用户ID 查询出用户的好友数量
+        }
+
         Pager<ProfilePage_06> pager = new Pager<ProfilePage_06>();
         int totalPageCount = 0;
         if ( count % PageSize == 0 ) {
@@ -332,7 +349,7 @@ public class ProfilePageController {
             totalPageCount = count / PageSize + 1;
         }
         List<ProfilePage_06> profilePage_06s = new ArrayList<>();
-       int  a =(PageNo-1)*4;
+       int  a =(PageNo-1)*8;
         if (friends.size()!=0){
         for (int i =a ;i<friends.size();i++){//遍历用户好友集合
 
@@ -364,7 +381,9 @@ public class ProfilePageController {
         pager.setTotalsize(count);
         pager.setPageSize(PageSize);
         }else {
-            throw new RuntimeException("没有数据") ;
+            List<String> stringList = new ArrayList<>();
+            stringList.add("没有数据");
+            return new ResponseEntity<>(stringList, HttpStatus.OK);
         }
         return new ResponseEntity<>(pager, HttpStatus.OK);
     }
@@ -376,5 +395,133 @@ public class ProfilePageController {
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
+    @PostMapping("deleteFriend")
+    public ResponseEntity<?> deleteFriend(@Param("User_id")int User_id,@Param("Friend_user_id")int Friend_user_id){
+        int count = profilePageService.deleteFriend(User_id,Friend_user_id);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/file")
+    public String file() {
+        return "file";
+    }
+
+    //上传照片创建相册
+    @PostMapping("/fileUpload")
+    public ResponseEntity<?>  fileUpload(@RequestParam(value = "file") MultipartFile file, Model model, HttpServletRequest request,String Album_name,String Album_describe,int User_id) {
+        List<String> stringList = new ArrayList<>();
+
+        if (Album_name==null||Album_name.equals("")||Album_describe==null||Album_describe.equals("")){
+            stringList.add("相册名或相册描述不能为空");
+            return new ResponseEntity<>(stringList, HttpStatus.OK);
+        }else {
+            Album album   = profilePageService.selectAlbum(Album_name,User_id);
+            if (album!=null){
+                stringList.add("该相册名已存在");
+                return new ResponseEntity<>(stringList, HttpStatus.OK);
+            }else {
+                if (file.isEmpty()) {
+                    System.out.println("文件为空空");
+                }
+                String fileName = file.getOriginalFilename();  // 文件名
+                String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
+                String filePath = "D://temp-rainy//"; // 上传后的路径
+                fileName = UUID.randomUUID() + suffixName; // 新文件名
+                System.out.println(Album_name);
+                int count = profilePageService.insertpicture(fileName,User_id,Album_name);//根据路径,用户ID,相册名先将图片存入照片表
+                Picture picture = profilePageService.selectPictureByPath(fileName,User_id);//根据路径,查询出照片ID
+                int count2 = profilePageService.insertAlbum(Album_name,picture.getPicture_id(),User_id,Album_describe);//新增相册
+                File dest = new File(filePath + fileName);
+                if (!dest.getParentFile().exists()) {
+                    dest.getParentFile().mkdirs();
+                }
+                try {
+                    file.transferTo(dest);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String filename = "/temp-rainy/" + fileName;
+                model.addAttribute("filename", filename);
+                stringList.add("成功");
+                return new ResponseEntity<>(stringList, HttpStatus.OK);
+                }
+
+        }
+
+
+    }
+    //查询用户所有相册
+    @PostMapping("selectAlbum")
+    public ResponseEntity<?> selectAlbum(@Param("User_id")int User_id,@Param("PageNo")int PageNo,@Param("PageSize")int PageSize){
+        List<Album> albums = new ArrayList<>();
+        int count = 0;
+            albums = profilePageService.selectAlbumAll(User_id);//查询用户相册表
+            count = profilePageService.selectAlbumCount(User_id);//根据用户ID 查询出用户的相册数量
+
+
+        Pager<ProfilePage_Photos_07> pager = new Pager<ProfilePage_Photos_07>();
+        int totalPageCount = 0;
+        if ( count % PageSize == 0 ) {
+            totalPageCount = count / PageSize;
+        } else {
+            totalPageCount = count / PageSize + 1;
+        }
+        List<ProfilePage_Photos_07> profilePage_photos_07s = new ArrayList<>();
+        int  a =(PageNo-1)*7;
+        if (albums.size()!=0){
+            for (int i =a ;i<albums.size();i++){//遍历用户照片集合集合
+                ProfilePage_Photos_07 profilePagePhotos07 = new ProfilePage_Photos_07();//new 一个07页面的实体类
+                profilePagePhotos07.setAlbum_comment_count(
+                        profilePageService.selectAlbum_commentCount(
+                                albums.get(i).getAlbum_id()));//根据遍历的相册ID 调用根据相册ID 查询该相册有多少评论数
+                profilePagePhotos07.setAlbum_describe(albums.get(i).getAlbum_describe());
+                profilePagePhotos07.setAlbum_id(albums.get(i).getAlbum_id());
+                profilePagePhotos07.setAlbum_like(albums.get(i).getAlbum_like());
+                profilePagePhotos07.setAlbum_name(albums.get(i).getAlbum_name());
+                profilePagePhotos07.setAlbum_time(albums.get(i).getAlbum_time());
+                profilePagePhotos07.setPicture_count(profilePageService.selectPictureCount(
+                        albums.get(i).getAlbum_name()));//根据遍历的相册名称 调用根据相册名称 查询该相册有多少相片
+                profilePagePhotos07.setPicture_id(albums.get(i).getPicture_id());
+                profilePagePhotos07.setUser_id(albums.get(i).getUser_id());
+                profilePagePhotos07.setPicture_path(profilePageService.selectPicture_pathById(albums.get(i).getPicture_id()));
+                profilePage_photos_07s.add(profilePagePhotos07);//将对象存入集合
+            };
+            pager.setDatas(profilePage_photos_07s);
+            pager.setPageNo(PageNo);
+            pager.setTotalno(totalPageCount);
+            pager.setTotalsize(count);
+            pager.setPageSize(PageSize);
+        }else {
+            List<String> stringList = new ArrayList<>();
+            stringList.add("没有数据");
+            return new ResponseEntity<>(stringList, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(pager, HttpStatus.OK);
+    }
+
+    @PostMapping("selectPictures")
+    public ResponseEntity<?> selectPictures(@Param("User_id")int User_id,String Album_name){
+      User user =   profilePageService.selectUser(User_id);
+      Album album = profilePageService.selectAlbum(Album_name,User_id);
+      int Album_comment_count = profilePageService.selectAlbum_commentCount(album.getAlbum_id());
+      int Picture_count = profilePageService.selectPictureCount(Album_name);
+      Picture picture = profilePageService.selectPictureById(album.getPicture_id());
+      List<Picture> pictures = profilePageService.selectPicture(Album_name,User_id);
+      ProfilePage_Photos_07 profilePagePhotos07 = new ProfilePage_Photos_07();
+      profilePagePhotos07.setPicture_path(picture.getPicture_path());
+        profilePagePhotos07.setUser_id(User_id);
+        profilePagePhotos07.setPicture_id(picture.getPicture_id());
+        profilePagePhotos07.setPicture_count(Picture_count);
+        profilePagePhotos07.setAlbum_time(album.getAlbum_time());
+        profilePagePhotos07.setAlbum_name(album.getAlbum_name());
+        profilePagePhotos07.setAlbum_like(album.getAlbum_like());
+        profilePagePhotos07.setAlbum_id(album.getAlbum_id());
+        profilePagePhotos07.setAlbum_describe(album.getAlbum_describe());
+        profilePagePhotos07.setAlbum_comment_count(Album_comment_count);
+        profilePagePhotos07.setUser_name(user.getUser_name());
+        profilePagePhotos07.setImg_path(user.getUser_img());
+        profilePagePhotos07.setPictures(pictures);
+        return new ResponseEntity<>(profilePagePhotos07, HttpStatus.OK);
+    }
 
 }
