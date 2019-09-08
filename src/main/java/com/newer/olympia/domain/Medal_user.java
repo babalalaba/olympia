@@ -1,6 +1,7 @@
 package com.newer.olympia.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 //用户勋章  对象
 public class Medal_user implements Serializable {
@@ -9,14 +10,33 @@ public class Medal_user implements Serializable {
     private  Integer Medal_user_id;
     private  Integer User_id;
     private  Integer Medal_id;
-
+    private List<User> user;
+    private List<Medal> medal;
     public Medal_user() {
     }
 
-    public Medal_user(Integer medal_user_id, Integer user_id, Integer medal_id) {
+    public Medal_user(Integer medal_user_id, Integer user_id, Integer medal_id, List<User> user, List<Medal> medal) {
         Medal_user_id = medal_user_id;
         User_id = user_id;
         Medal_id = medal_id;
+        this.user = user;
+        this.medal = medal;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
+    }
+
+    public List<Medal> getMedal() {
+        return medal;
+    }
+
+    public void setMedal(List<Medal> medal) {
+        this.medal = medal;
     }
 
     public Integer getMedal_user_id() {
@@ -49,6 +69,8 @@ public class Medal_user implements Serializable {
                 "Medal_user_id=" + Medal_user_id +
                 ", User_id=" + User_id +
                 ", Medal_id=" + Medal_id +
+                ", user=" + user +
+                ", medal=" + medal +
                 '}';
     }
 }
