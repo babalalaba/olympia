@@ -14,8 +14,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Override
-    public List<User> FindUser() {
-        return userMapper.FindUser();
+    public List<User> FindUser(Integer User_id) {
+        return userMapper.FindUser(User_id);
     }
 
     @Override
@@ -49,7 +49,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Picture> allPicture(Integer User_id) {
-        return userMapper.allPicture(User_id);
+    public int allPicture(Picture p) {
+        return userMapper.allPicture(p);
     }
+
+    @Override
+    public List<Picture> PictureAllBy(Integer User_id) {
+        return userMapper.PictureAllBy(User_id);
+    }
+
+    @Override
+    public int updUsering(Integer User_img, Integer User_id) {
+        return userMapper.updUsering(User_img,User_id);
+    }
+
+    @Override
+    public List<User> findUserImg(Integer User_id) {
+        return userMapper.findUserImg(User_id);
+    }
+
+
 }
