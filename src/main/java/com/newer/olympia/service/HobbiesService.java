@@ -36,7 +36,7 @@ public interface HobbiesService {
     //增加一条评论
     public  int insertComment(Comment c);
     //根据用户ID和动态ID 查询该动态下的所有评论
-    public List<FriendComment>  selectCommentAllByid(int User_id, int Blogs_id, int pageNo);
+    public List<FriendComment>  selectCommentAllByid(int User_id, int Blogs_id, int pageNo,int pageNoSize);
     //查询总页数
     public int  selectTotlaPage(int Blogs_id);
     //根据用户ID查询用户所有的动态
@@ -56,5 +56,6 @@ public interface HobbiesService {
     public List<SyjBlgos> selectBlogsAllByiding(Integer pageNo,Integer pageNoSize);
     //查询博客总页数
     public int  TotlaPage();
-
+    //上传背景图
+    public int updataUsertitle_img(String User_title_img,String User_name);
 }

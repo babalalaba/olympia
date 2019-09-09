@@ -106,8 +106,8 @@ public class HobbiesServiceImpl implements  HobbiesService {
     }
 
     @Override
-    public List<FriendComment> selectCommentAllByid(int User_id, int Blogs_id, int pageNo) {
-        return hobbiesMapper.selectCommentAllByid(User_id,Blogs_id,pageNo);
+    public List<FriendComment> selectCommentAllByid(int User_id, int Blogs_id, int pageNo,int pageNoSize) {
+        return hobbiesMapper.selectCommentAllByid(User_id,Blogs_id,pageNo,pageNoSize);
     }
 
     @Override
@@ -160,6 +160,10 @@ public class HobbiesServiceImpl implements  HobbiesService {
         return hobbiesMapper.TotlaPage();
     }
 
+    @Override
+    public int updataUsertitle_img(String User_title_img,String User_name) {
+        return hobbiesMapper.updataUsertitle_img(User_title_img,User_name);
+    }
 
 
 }

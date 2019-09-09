@@ -5,13 +5,15 @@ package com.newer.olympia.controller;/*
 
 import com.newer.olympia.domain.*;
 import com.newer.olympia.service.HobbiesService;
-import com.newer.olympia.util.Pager;
+import com.newer.olympia.util.Pager2;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -174,15 +176,20 @@ public class HobbiesController {
     //根据发布的动态ID 查询该用户发布的动态下所有的评论
     @PostMapping("/selectCommentAllByid")
     public ResponseEntity<?> selectCommentAllByid(@Param("User_id") int User_id, @Param("Blogs_id") int Blogs_id, @Param("pageNo") int pageNo) {
-        if (pageNo == 0) {
+        if (pageNo==0) {
             pageNo = 1;
         }
-        int pageNo1 = (pageNo - 1) * 2;
+        int pageNoSize=3;
+        int pageNo1 = (pageNo-1) * pageNoSize;
         System.out.println(pageNo1 + "首页");
+        System.out.println(pageNoSize + "大小");
         int totlaPage = hobbiesService.selectTotlaPage(Blogs_id);
-        List<FriendComment> friendComments = hobbiesService.selectCommentAllByid(User_id, Blogs_id, pageNo1);
+        List<FriendComment> friendComments = hobbiesService.selectCommentAllByid(User_id, Blogs_id, pageNo1,pageNoSize);
         List<FriendComment> commentList = new ArrayList<>();
-        Pager pager = new Pager();
+        //封装总页数
+        double tc = totlaPage;
+        Double num = Math.ceil(tc / pageNoSize);//向上取整
+        Pager2 pager = new Pager2();
         long time = new Date().getTime();
         int finalPageNo = pageNo;
         friendComments.forEach(friendComment -> {
@@ -203,8 +210,9 @@ public class HobbiesController {
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
                 pager.setResult(commentList);
-                pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setPageNo(pageNo1);
+                pager.setPageSize(pageNoSize);
+                pager.setTotlaPage(num.intValue());
             } else if (a / (1000 * 60 * 60) >= 24) {
                 Double a1 = Double.valueOf(((a / (1000 * 60 * 60)) / 24));
                 int a2 = (int) Math.floor(a1);
@@ -221,8 +229,9 @@ public class HobbiesController {
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
                 pager.setResult(commentList);
-                pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setPageNo(pageNo1);
+                pager.setPageSize(pageNoSize);
+                pager.setTotlaPage(num.intValue());;
             } else if (a / (1000 * 60) >= 60) {
                 Double a1 = Double.valueOf(((a / (1000 * 60)) / 60));
                 int a2 = (int) Math.floor(a1);
@@ -239,8 +248,9 @@ public class HobbiesController {
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
                 pager.setResult(commentList);
-                pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setPageSize(pageNoSize);
+                pager.setPageNo(pageNo1);
+                pager.setTotlaPage(num.intValue());
             } else if (a / (1000) >= 60) {
                 Double a1 = Double.valueOf(((a / (1000)) / 60));
                 int a2 = (int) Math.floor(a1);
@@ -257,8 +267,9 @@ public class HobbiesController {
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
                 pager.setResult(commentList);
-                pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setPageSize(pageNoSize);
+                pager.setPageNo(pageNo1);
+                pager.setTotlaPage(num.intValue());
             } else if (a / (1000) < 60) {
                 Double a1 = Double.valueOf((a / 1000));
                 int a2 = (int) Math.floor(a1);
@@ -275,8 +286,9 @@ public class HobbiesController {
                 friendComment1.setUser_id(friendComment.getUser_id());//评论人ID
                 commentList.add(friendComment1);
                 pager.setResult(commentList);
-                pager.setPageNo(finalPageNo);
-                pager.setTotlaPage(totlaPage);
+                pager.setPageSize(pageNoSize);
+                pager.setPageNo(pageNo1);
+                pager.setTotlaPage(num.intValue());
             }
         });
         System.out.println(pager + "7878");
@@ -427,21 +439,22 @@ public class HobbiesController {
     //控制主页博客数
     @PostMapping("/delBlogsSize")
     public ResponseEntity<?> delBlogsSize(Integer pageNo) {
-        if (pageNo == 0) {
-            pageNo = 1;
+        if (pageNo==0) {
+            pageNo = 0;
         }
         int pageNoSize=10;
-        int pageNo1 = (pageNo-1) * pageNoSize;
+        int pageNo1 = pageNo * pageNoSize;
         System.out.println(pageNo1 + "首页");
         System.out.println(pageNoSize + "大小");
         int totlaPage = hobbiesService.TotlaPage();//总页数
-        Pager pager = new Pager();
+        Pager2 pager = new Pager2();
         //封装总页数
         double tc = totlaPage;
         Double num = Math.ceil(tc / pageNoSize);//向上取整
-        List<SyjBlgos> blogs = hobbiesService.selectBlogsAllByiding(pageNo1, pageNoSize);
+        List<SyjBlgos> blogs = hobbiesService.selectBlogsAllByiding(pageNo, pageNoSize);
         List<SyjBlgos> syjBlgosList = new ArrayList<>();
         long time = new Date().getTime();
+        Integer finalPageNo = pageNo;
         blogs.forEach(blogs1 -> {
             long a = time - blogs1.getBlogs_time().getTime();
             if (a / (1000 * 60 * 60 * 24) >= 30) {
@@ -462,7 +475,7 @@ public class HobbiesController {
                 syjBlgos.setUser_id(blogs1.getUser_id());
                 syjBlgos.setUser_table(blogs1.getUser_table());
                 syjBlgosList.add(syjBlgos);
-                pager.setPageNo(pageNo1);//当前页
+                pager.setPageNo(finalPageNo);//当前页
                 pager.setResult(syjBlgosList);
                 //pager.setTotlaPage(totlaPage);
                 pager.setTotlaPage(num.intValue());
@@ -485,7 +498,7 @@ public class HobbiesController {
                 syjBlgos.setUser_id(blogs1.getUser_id());
                 syjBlgos.setUser_table(blogs1.getUser_table());
                 syjBlgosList.add(syjBlgos);
-                pager.setPageNo(pageNo1);//当前页
+                pager.setPageNo(finalPageNo);//当前页
                 pager.setResult(syjBlgosList);
                 pager.setTotlaPage(num.intValue());
                 pager.setPageSize(pageNoSize);
@@ -507,7 +520,7 @@ public class HobbiesController {
                 syjBlgos.setUser_id(blogs1.getUser_id());
                 syjBlgos.setUser_table(blogs1.getUser_table());
                 syjBlgosList.add(syjBlgos);
-                pager.setPageNo(pageNo1);//当前页
+                pager.setPageNo(finalPageNo);//当前页
                 pager.setResult(syjBlgosList);
                 pager.setTotlaPage(num.intValue());
                 pager.setPageSize(pageNoSize);
@@ -529,7 +542,7 @@ public class HobbiesController {
                 syjBlgos.setUser_id(blogs1.getUser_id());
                 syjBlgos.setUser_table(blogs1.getUser_table());
                 syjBlgosList.add(syjBlgos);
-                pager.setPageNo(pageNo1);//当前页
+                pager.setPageNo(finalPageNo);//当前页
                 pager.setResult(syjBlgosList);
                 pager.setTotlaPage(num.intValue());
                 pager.setPageSize(pageNoSize);
@@ -551,7 +564,7 @@ public class HobbiesController {
                 syjBlgos.setUser_id(blogs1.getUser_id());
                 syjBlgos.setUser_table(blogs1.getUser_table());
                 syjBlgosList.add(syjBlgos);
-                pager.setPageNo(pageNo1);//当前页
+                pager.setPageNo(finalPageNo);//当前页
                 pager.setResult(syjBlgosList);
                 pager.setTotlaPage(num.intValue());
                 pager.setPageSize(pageNoSize);
@@ -560,5 +573,28 @@ public class HobbiesController {
         });
         System.out.println(pager + "6767");
         return new ResponseEntity<>(pager, HttpStatus.OK);
+    }
+    @PostMapping("/updataUsertitle_img")
+    public ResponseEntity<?> updataUsertitle_img(@RequestParam(value = "file",required = false)MultipartFile file,
+                                                 @RequestParam("User_name") String User_name){
+        System.out.println(file+"888888===");
+        System.out.println(User_name+"888888===");
+        String filePath = null;
+        if (!file.isEmpty()) {
+            try {
+                // 文件保存路径
+                filePath = "H:\\spring\\nginx-1.16.0\\html\\word\\img\\"+User_name+".jpg";
+                System.out.println(filePath);
+                // 转存文件
+                file.transferTo(new File(filePath));
+                /*filePath = "imgs/"+User_id+"/.jpg";*/
+                filePath = "/"+User_name+".jpg";
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        int i = hobbiesService.updataUsertitle_img(filePath, User_name);
+        System.out.println(i+"上传背景成功");
+        return  new ResponseEntity<>(i,HttpStatus.OK);
     }
 }

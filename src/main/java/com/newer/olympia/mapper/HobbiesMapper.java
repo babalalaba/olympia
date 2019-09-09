@@ -57,7 +57,7 @@ public interface HobbiesMapper {
             "values(#{Comment_user_id},#{Blogs_id},#{Comment_content},#{Comment_time},#{User_id})")
     public  int insertComment(Comment c);
     //根据发布的动态ID查询该用户发布的动态下所有的评论
-    public List<FriendComment> selectCommentAllByid(@Param("User_id") int User_id, @Param("Blogs_id") int Blogs_id, @Param("pageNo")int pageNo);
+    public List<FriendComment> selectCommentAllByid(@Param("User_id") int User_id, @Param("Blogs_id") int Blogs_id, @Param("pageNo")int pageNo,@Param("pageNoSize")Integer pageNoSize);
     //查询总页数
     @Select("select count(*) from comment where Blogs_id = #{Blogs_id}")
     public int  selectTotlaPage(int Blogs_id);
@@ -83,4 +83,7 @@ public interface HobbiesMapper {
     //查询博客总页数
     @Select("select count(*) from blogs")
     public int  TotlaPage();
+    //上传背景图
+    @Update("update user set User_title_img=#{User_title_img} where User_name=#{User_name}")
+    public int updataUsertitle_img(@Param("User_title_img")String User_title_img,@Param("User_name")String User_name);
 }
