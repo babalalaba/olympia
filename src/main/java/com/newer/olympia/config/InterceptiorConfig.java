@@ -1,3 +1,4 @@
+/*
 package com.newer.olympia.config;
 
 
@@ -7,9 +8,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+*/
 /**
  * 拦截器的配置类
- */
+ *//*
+
 @Configuration  //声明为配置类
 public class InterceptiorConfig implements WebMvcConfigurer {
 
@@ -25,3 +28,4 @@ public class InterceptiorConfig implements WebMvcConfigurer {
         return new MyInterceptor();
     }
 }
+*/

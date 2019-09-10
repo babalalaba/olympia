@@ -7,7 +7,7 @@ public class Hobbies implements Serializable {
     private Integer User_id;//用户id
     private String Hobbies_hobby;//嗜好
     private String Hobbies_music;//喜欢的音乐、乐队
-    private String Hobbies_telecas;//喜欢的电视节目
+    private String Hobbies_telecast;//喜欢的电视节目
     private String Hobbies_book;//喜欢的书
     private String Hobbies_movie;//喜欢的电影
     private String Hobbies_writer;//喜欢的作家
@@ -18,11 +18,11 @@ public class Hobbies implements Serializable {
     public Hobbies() {
     }
 
-    public Hobbies(Integer user_id, String hobbies_hobby, String hobbies_music, String hobbies_telecas, String hobbies_book, String hobbies_movie, String hobbies_writer, String hobbies_game, String hobbies_else) {
+    public Hobbies(Integer user_id, String hobbies_hobby, String hobbies_music, String hobbies_telecast, String hobbies_book, String hobbies_movie, String hobbies_writer, String hobbies_game, String hobbies_else) {
         User_id = user_id;
         Hobbies_hobby = hobbies_hobby;
         Hobbies_music = hobbies_music;
-        Hobbies_telecas = hobbies_telecas;
+        Hobbies_telecast = hobbies_telecast;
         Hobbies_book = hobbies_book;
         Hobbies_movie = hobbies_movie;
         Hobbies_writer = hobbies_writer;
@@ -54,12 +54,12 @@ public class Hobbies implements Serializable {
         Hobbies_music = hobbies_music;
     }
 
-    public String getHobbies_telecas() {
-        return Hobbies_telecas;
+    public String getHobbies_telecast() {
+        return Hobbies_telecast;
     }
 
-    public void setHobbies_telecas(String hobbies_telecas) {
-        Hobbies_telecas = hobbies_telecas;
+    public void setHobbies_telecast(String hobbies_telecast) {
+        Hobbies_telecast = hobbies_telecast;
     }
 
     public String getHobbies_book() {
