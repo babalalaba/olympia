@@ -1,6 +1,11 @@
 package com.newer.olympia.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 public class Inform implements Serializable {
 
@@ -8,18 +13,39 @@ public class Inform implements Serializable {
     private Integer Inform_id;//id
     private  Integer Inform_user_id;//好友id
     private Integer User_id;//用户id
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date Inform_time;//通知时间
     private String Inform_board;//通知的内容
     private Integer Inform_state;//状态 读、未读
-
+    private List<User> user;
     public Inform() {
     }
 
-    public Inform(Integer inform_id, Integer inform_user_id, Integer user_id, String inform_board, Integer inform_state) {
+    public Inform(Integer inform_id, Integer inform_user_id, Integer user_id, Date inform_time, String inform_board, Integer inform_state, List<User> user) {
         Inform_id = inform_id;
         Inform_user_id = inform_user_id;
         User_id = user_id;
+        Inform_time = inform_time;
         Inform_board = inform_board;
         Inform_state = inform_state;
+        this.user = user;
+    }
+
+    public Date getInform_time() {
+        return Inform_time;
+    }
+
+    public void setInform_time(Date inform_time) {
+        Inform_time = inform_time;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 
     public Integer getInform_id() {
@@ -60,5 +86,18 @@ public class Inform implements Serializable {
 
     public void setInform_state(Integer inform_state) {
         Inform_state = inform_state;
+    }
+
+    @Override
+    public String toString() {
+        return "Inform{" +
+                "Inform_id=" + Inform_id +
+                ", Inform_user_id=" + Inform_user_id +
+                ", User_id=" + User_id +
+                ", Inform_time=" + Inform_time +
+                ", Inform_board='" + Inform_board + '\'' +
+                ", Inform_state=" + Inform_state +
+                ", user=" + user +
+                '}';
     }
 }

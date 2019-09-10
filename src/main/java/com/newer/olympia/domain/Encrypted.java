@@ -13,10 +13,10 @@ public class Encrypted implements Serializable {
     public Encrypted() {
     }
 
-    public Encrypted(Integer encrypted_id, String encrypted_question, String Encrypted_answer, Integer user_id) {
+    public Encrypted(Integer encrypted_id, String encrypted_question, String encrypted_answer, Integer user_id) {
         Encrypted_id = encrypted_id;
         Encrypted_question = encrypted_question;
-        this.Encrypted_answer = Encrypted_answer;
+        Encrypted_answer = encrypted_answer;
         User_id = user_id;
     }
 
@@ -36,12 +36,13 @@ public class Encrypted implements Serializable {
         Encrypted_question = encrypted_question;
     }
 
-    public String getEncrypted_answerr() {
+    public String getEncrypted_answer() {
         return Encrypted_answer;
     }
 
-    public void setEncrypted_answer(String Encrypted_answer) {
-        this.Encrypted_answer = Encrypted_answer;
+
+    public void setEncrypted_answer(String encrypted_answer) {
+        Encrypted_answer = encrypted_answer;
     }
 
     public Integer getUser_id() {

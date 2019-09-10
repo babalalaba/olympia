@@ -1,6 +1,7 @@
 package com.newer.olympia.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Hobbies implements Serializable {
     private static final long serialVersionUID = -8519755984279929143L;
@@ -13,12 +14,12 @@ public class Hobbies implements Serializable {
     private String Hobbies_writer;//喜欢的作家
     private String Hobbies_game;//喜欢的游戏
     private String Hobbies_else;//其他兴趣爱好
-
+    private List<User> user;
 
     public Hobbies() {
     }
 
-    public Hobbies(Integer user_id, String hobbies_hobby, String hobbies_music, String hobbies_telecast, String hobbies_book, String hobbies_movie, String hobbies_writer, String hobbies_game, String hobbies_else) {
+    public Hobbies(Integer user_id, String hobbies_hobby, String hobbies_music, String hobbies_telecast, String hobbies_book, String hobbies_movie, String hobbies_writer, String hobbies_game, String hobbies_else, List<User> user) {
         User_id = user_id;
         Hobbies_hobby = hobbies_hobby;
         Hobbies_music = hobbies_music;
@@ -28,6 +29,15 @@ public class Hobbies implements Serializable {
         Hobbies_writer = hobbies_writer;
         Hobbies_game = hobbies_game;
         Hobbies_else = hobbies_else;
+        this.user = user;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 
     public Integer getUser_id() {
@@ -100,5 +110,21 @@ public class Hobbies implements Serializable {
 
     public void setHobbies_else(String hobbies_else) {
         Hobbies_else = hobbies_else;
+    }
+
+    @Override
+    public String toString() {
+        return "Hobbies{" +
+                "User_id=" + User_id +
+                ", Hobbies_hobby='" + Hobbies_hobby + '\'' +
+                ", Hobbies_music='" + Hobbies_music + '\'' +
+                ", Hobbies_telecast='" + Hobbies_telecast + '\'' +
+                ", Hobbies_book='" + Hobbies_book + '\'' +
+                ", Hobbies_movie='" + Hobbies_movie + '\'' +
+                ", Hobbies_writer='" + Hobbies_writer + '\'' +
+                ", Hobbies_game='" + Hobbies_game + '\'' +
+                ", Hobbies_else='" + Hobbies_else + '\'' +
+                ", user=" + user +
+                '}';
     }
 }

@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-//博文动态
-public class Blogs  implements Serializable {
+public class SyjBlgos implements Serializable {
+
     private static final long serialVersionUID = -7434725189264952354L;
     private Integer Blogs_id;//id
     private Integer User_id;//用户id
@@ -16,17 +16,19 @@ public class Blogs  implements Serializable {
     private Integer Blogs_type;//判断发布的类型
     private String Blogs_img;//上传图片
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date Blogs_time;//发布时间
     private Integer Blogs_like;//点赞数
     private Integer Blogs_state;//博文状态
     private List<User> user;
     private List<Comment> comment;
-    private List<Friend> friend;
-    public Blogs() {
+    private List<User_table> user_table;
+    private String fabu_time;
+    private Integer Status;
+    public SyjBlgos() {
     }
 
-    public Blogs(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, List<User> user, List<Comment> comment, List<Friend> friend) {
+    public SyjBlgos(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, List<User> user, List<Comment> comment, List<User_table> user_table, String fabu_time, Integer status) {
         Blogs_id = blogs_id;
         User_id = user_id;
         Blogs_content = blogs_content;
@@ -37,31 +39,17 @@ public class Blogs  implements Serializable {
         Blogs_state = blogs_state;
         this.user = user;
         this.comment = comment;
-        this.friend = friend;
+        this.user_table = user_table;
+        this.fabu_time = fabu_time;
+        Status = status;
     }
 
-    public List<Friend> getFriend() {
-        return friend;
+    public List<User_table> getUser_table() {
+        return user_table;
     }
 
-    public void setFriend(List<Friend> friend) {
-        this.friend = friend;
-    }
-
-    public List<User> getUser() {
-        return user;
-    }
-
-    public List<Comment> getComment() {
-        return comment;
-    }
-
-    public void setComment(List<Comment> comment) {
-        this.comment = comment;
-    }
-
-    public void setUser(List<User> user) {
-        this.user = user;
+    public void setUser_table(List<User_table> user_table) {
+        this.user_table = user_table;
     }
 
     public Integer getBlogs_id() {
@@ -128,9 +116,41 @@ public class Blogs  implements Serializable {
         Blogs_state = blogs_state;
     }
 
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
+    }
+
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
+    }
+
+    public String getFabu_time() {
+        return fabu_time;
+    }
+
+    public void setFabu_time(String fabu_time) {
+        this.fabu_time = fabu_time;
+    }
+
+    public Integer getStatus() {
+        return Status;
+    }
+
+    public void setStatus(Integer status) {
+        Status = status;
+    }
+
     @Override
     public String toString() {
-        return "Blogs{" +
+        return "SyjBlgos{" +
                 "Blogs_id=" + Blogs_id +
                 ", User_id=" + User_id +
                 ", Blogs_content='" + Blogs_content + '\'' +
@@ -141,7 +161,9 @@ public class Blogs  implements Serializable {
                 ", Blogs_state=" + Blogs_state +
                 ", user=" + user +
                 ", comment=" + comment +
-                ", friend=" + friend +
+                ", user_table=" + user_table +
+                ", fabu_time='" + fabu_time + '\'' +
+                ", Status=" + Status +
                 '}';
     }
 }
