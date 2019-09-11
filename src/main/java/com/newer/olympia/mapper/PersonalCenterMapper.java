@@ -1,8 +1,6 @@
 package com.newer.olympia.mapper;
 
-import com.newer.olympia.domain.Encrypted;
-import com.newer.olympia.domain.Privacy;
-import com.newer.olympia.domain.User;
+import com.newer.olympia.domain.*;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -41,6 +39,9 @@ public interface PersonalCenterMapper {
     //查询当前用户密保答案
     @Select("select encrypted_id,Encrypted_answer from encrypted where user_id=#{user_id}")
     public List<Encrypted> selEncAnsByUserId(int User_id);
+    //根据密保id查询密保信息
+    @Select("select * from encrypted where Encrypted_id=#{Encrypted_id}")
+    public Encrypted selEncQueByENCId(int Encrypted_id);
     //修改密保答案
     @Update("update encrypted set Encrypted_question=#{Encrypted_question},Encrypted_answer=#{Encrypted_answer} where user_id=#{user_id}" +
             " and Encrypted_id=#{Encrypted_id}")
@@ -49,4 +50,42 @@ public interface PersonalCenterMapper {
     @Insert("insert into encrypted values(#{Encrypted_id},#{Encrypted_question},#{Encrypted_answer},#{User_id})")
     public int insEncrypted(Encrypted encrypted);
 
+    //更改用户手机密保
+    @Update("update user set User_mobile=#{User_mobile} where user_id=#{User_id}")
+    public int upChecodeByUserId(int User_id,String User_mobile);
+
+    //查询用户爱好
+    @Select("select * from hobbies")
+    public Hobbies selHobbies(int User_id);
+
+    //保存用户爱好
+    @Insert("insert into hobbies values(#{User_id},#{Hobbies_hobby},#{Hobbies_music},#{Hobbies_telecast},#{Hobbies_book}," +
+            "#{Hobbies_movie},#{Hobbies_writer},#{Hobbies_game},#{Hobbies_else})")
+    public int subHobbies(Hobbies hobbies);
+
+    //更新用户爱好
+    @Update("update hobbies set Hobbies_hobby=#{Hobbies_hobby},Hobbies_music=#{Hobbies_music},Hobbies_telecast=#{Hobbies_telecast}" +
+            ",Hobbies_book=#{Hobbies_book},Hobbies_movie=#{Hobbies_movie},Hobbies_writer=#{Hobbies_writer},Hobbies_game=#{Hobbies_game}" +
+            ",Hobbies_else=#{Hobbies_else} where User_id=#{User_id}")
+    public int updHobbies(Hobbies hobbies);
+
+    //查询用户教育经历
+    @Select("select * from education where User_id=#{user_id}")
+    public List<Education> selEdu(int User_id);
+    //查询用户工作经历
+    @Select("select * from job where User_id=#{user_id}")
+    public List<Job> selEmp(int User_id);
+    //保存用户的教育信息
+    @Insert("insert into education values(default,#{Education_site},#{Education_time},#{Education_describe},#{User_id})")
+    public int subEdu(Education education);
+    //更新用户的教育信息
+    @Update("update education set Education_site=#{Education_site},Education_time=#{Education_time},Education_describe=#{Education_describe}" +
+            " where Education_id=#{Education_id} and User_id=#{User_id}")
+    public int updEdu(Education education);
+    //保存用户的工作信息
+    @Insert("insert into job values(default,#{Job_site},#{Job_time},#{Job_describe},#{User_id})")
+    public int subJob(Job job);
+    //更新用户的工作信息
+    @Update("update job set Job_site=#{Job_site},Job_time=#{Job_time},Job_describe=#{Job_describe} where Job_id=#{Job_id} and User_id=#{User_id}")
+    public int updJob(Job job);
 }
