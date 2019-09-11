@@ -39,4 +39,9 @@ public class DynamicServiceImpl implements DynamicService {
     public List<ReMap> findComment(Integer Blogs_id) {
         return dynamicMapper.findComment(Blogs_id);
     }
+
+    @Override
+    public User selectUser(int User_id) {
+        return dynamicMapper.selectUser(User_id);
+    }
 }

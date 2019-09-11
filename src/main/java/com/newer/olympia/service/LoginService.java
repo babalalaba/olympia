@@ -1,5 +1,6 @@
 package com.newer.olympia.service;
 
+import com.newer.olympia.domain.Privacy;
 import com.newer.olympia.domain.User;
 import com.newer.olympia.mapper.LoginMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,4 +20,9 @@ public class LoginService implements LoginServiceImpl {
     public int zcFun(User user) {
         return loginMapper.zcFun(user);
     }
+
+    @Override
+    public int insertPrivacy(Privacy privacy){
+        return loginMapper.insertPrivacy(privacy);
+    };
 }

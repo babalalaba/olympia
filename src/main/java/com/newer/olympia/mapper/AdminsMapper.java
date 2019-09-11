@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface AdminsMapper {
     //查询管理员账号密码
-    @Select("select * from admis where Admis_name=#{Admis_name}")
+    @Select("select * from admis where Admis_username=#{Admis_username}")
     public Admis selAdmis(String Admis_name);
     @Select("select * from admis where Admis_id=#{Admis_id}")
     public Admis selAdmisByUser_id(int Admis_id);

@@ -7,11 +7,7 @@ import com.newer.olympia.util.HttpUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
@@ -140,7 +136,9 @@ public class PersonalCenterService implements PersonalCenterServiceImpl  {
             }*/
             privacy.setPrivacy_state(pri[i-1]);
             privacy.setUser_id(User_id);
+            System.out.println(privacy);
             int count = UpdPri(privacy);
+            System.out.println(count);
             //如果其中一条数据修改失败，则回滚保存的数据
             if (count == 0) {
                 try {

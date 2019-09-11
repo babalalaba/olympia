@@ -23,7 +23,9 @@ public interface DynamicMapper {
 //查询用户头像
     @Select("select User_last_name,User_name,User_img from user where User_id=#{User_id}")
     public  User FindUser(@Param("User_id") Integer User_id);
-
+    //根据用户ID 查询用户信息
+    @Select("select * from User where User_id = #{User_id}")
+    public User selectUser(int User_id);
 
     //发布动态
 

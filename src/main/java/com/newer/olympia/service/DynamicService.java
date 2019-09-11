@@ -15,4 +15,6 @@ public interface DynamicService {
     public List<ReMap> findContent(@Param("User_id")Integer User_id);
 
     public List<ReMap> findComment(@Param("Blogs_id")Integer Blogs_id);
+    //根据用户ID 查询用户信息
+    public User selectUser(int User_id);
 }

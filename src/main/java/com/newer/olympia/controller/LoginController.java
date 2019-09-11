@@ -1,5 +1,6 @@
 package com.newer.olympia.controller;
 
+import com.newer.olympia.domain.Privacy;
 import com.newer.olympia.domain.User;
 import com.newer.olympia.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class LoginController {
@@ -38,6 +37,12 @@ public class LoginController {
             list.add(1);
             User user1=loginService.loginFun(user.getUser_mobile(),user.getUser_pwd());
             list.add(user1);
+            for (int i=1;i<5;i++){
+                Privacy privacy = new Privacy();
+                privacy.setPrivacy_describe(i);
+                privacy.setUser_id(user1.getUser_id());
+                loginService.insertPrivacy(privacy);
+            }
         }catch (Exception e){
             list.add(2);
             list.add(null);

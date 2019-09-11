@@ -551,7 +551,7 @@ public class ProfilePageController {
                 album_comment_07.setComment_time(Album_comment.get(i).getComment_time());
                 album_comment_07.setComment_user_id(Album_comment.get(i).getComment_user_id());
                 long time1 = new Date().getTime();
-                long time2 = Album_comment.get(i).getComment_time().getTime();
+                long time2 = Album_comment.get(i).getComment_time().getTime()-28800000;
                 String a3=null;
                 if((time1-time2)/(1000*60*60*24)>=30){
                     Double a1 = Double.valueOf((((time1-time2)/(1000*60*60*24))/30));//long转Double类型

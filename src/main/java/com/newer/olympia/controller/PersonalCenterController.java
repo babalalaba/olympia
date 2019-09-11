@@ -1,6 +1,5 @@
 package com.newer.olympia.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.newer.olympia.domain.*;
 import com.newer.olympia.service.PersonalCenterService;
 import com.newer.olympia.util.HttpUtils;
@@ -9,13 +8,9 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -335,17 +330,17 @@ public class PersonalCenterController {
             if (i==0){
                 education.setUser_id(User_id);
                 education.setEducation_site(sch1Name);
-                education.setEducation__time(sch1Time);
+                education.setEducation_time(sch1Time);
                 education.setEducation_describe(sch1Dec);
             }else if (i==1){
                 education.setUser_id(User_id);
                 education.setEducation_site(sch2Name);
-                education.setEducation__time(sch2Time);
+                education.setEducation_time(sch2Time);
                 education.setEducation_describe(sch2Dec);
             }else if (i==2){
                 education.setUser_id(User_id);
                 education.setEducation_site(sch3Name);
-                education.setEducation__time(sch3Time);
+                education.setEducation_time(sch3Time);
                 education.setEducation_describe(sch3Dec);
             }
             int count;

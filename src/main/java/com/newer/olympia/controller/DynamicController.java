@@ -9,18 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,11 +45,19 @@ public class DynamicController {
 
 
     }
+    @PostMapping("/FindUserTest1")//用户头像
+    public ResponseEntity<?> FindUserTest1(@Param("User_id") Integer User_id) {
+        User user = dynamicService.FindUser(User_id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
 
+
+    }
 
 
     @PostMapping("dongTaiTest")//动态发布
     public ResponseEntity<?> dongTaiTest(Blogs blogs){
+       User user =  dynamicService.selectUser(blogs.getUser_id());
+    /*   if (user.getUser_state()==3)*/
         int count=dynamicService.addDongtai(blogs);
         if(count==1){System.out.println(blogs.getBlogs_content()+"-----------------");}
 
@@ -140,7 +146,7 @@ public class DynamicController {
 
 
 
-    @GetMapping(value = "/file")
+    @GetMapping(value = "/myfile")
     public String file() {
 
         return "file";
@@ -149,7 +155,7 @@ public class DynamicController {
 
 
 
-    @PostMapping(value = "fileUpload")//上传
+    @PostMapping(value = "myfileUpload")//上传
     public ResponseEntity<?> fileUpload(@RequestParam(value = "file") MultipartFile file, Model model, HttpServletRequest request,
                                         HttpSession session) {
          List<String> list=new ArrayList<>();
@@ -171,12 +177,14 @@ public class DynamicController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String filename = "/temp-rainy/" + fileName;
+        String filename = fileName;
         model.addAttribute("filename", filename);
         list.add(filename);
 
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
+
+
 
 
 
