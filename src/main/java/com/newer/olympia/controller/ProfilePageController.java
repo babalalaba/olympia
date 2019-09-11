@@ -394,13 +394,13 @@ public class ProfilePageController {
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/file")
+    @GetMapping(value = "/file1")
     public String file() {
         return "file";
     }
 
     //上传照片创建相册
-    @PostMapping("/fileUpload")
+    @PostMapping("/fileUpload1")
     public ResponseEntity<?>  fileUpload(@RequestParam(value = "file") MultipartFile file, Model model, HttpServletRequest request,String Album_name,String Album_describe,int User_id) {
         List<String> stringList = new ArrayList<>();
 
@@ -852,7 +852,7 @@ public class ProfilePageController {
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
-    //举报
+    //反馈
     @PostMapping("fankui")
     public ResponseEntity<?> fankui(int Blogs_id,String Blogs_season){
         int count  = profilePageService.updJubao(Blogs_season,Blogs_id);
