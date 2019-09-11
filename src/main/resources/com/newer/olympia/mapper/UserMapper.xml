@@ -21,8 +21,8 @@
 
     <!--多表查询-->
     <select id="FindMessages" resultMap="Article_map" parameterType="int">
-            select m.*,u.User_name,u.User_img from Messages m,User u where u.User_id=m.User_id
-            and m.User_id=#{User_id} and Message_state=0
+            select m.*,u.User_name,p.Picture_path as User_img from Messages m,User u,picture p where u.User_id=m.User_id
+            and u.User_img=p.Picture_id   and m.User_id=#{User_id} and Message_state=0
         </select>
 
     <resultMap id="Inform_a" type="com.newer.olympia.domain.Inform">
@@ -40,8 +40,8 @@
 
     </resultMap>
     <select id="FindBlogs" resultMap="Inform_a" parameterType="int">
-        select b.*,u.User_name,u.User_img from Inform b,user u where u.User_id=b.Inform_id
-         and b.Inform_id=#{User_id} and Inform_state=0
+        select b.*,u.User_name,p.Picture_path as User_img from Inform b,user u,picture p
+        where u.User_id=b.Inform_id and u.User_img=p.Picture_id and b.Inform_id=#{User_id}  and b.Inform_state=0
     </select>
 
 </mapper>

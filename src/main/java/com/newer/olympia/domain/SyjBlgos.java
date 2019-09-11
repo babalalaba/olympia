@@ -3,10 +3,11 @@ package com.newer.olympia.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class SyjBlgos {
+public class SyjBlgos implements Serializable {
 
     private static final long serialVersionUID = -7434725189264952354L;
     private Integer Blogs_id;//id
@@ -15,12 +16,13 @@ public class SyjBlgos {
     private Integer Blogs_type;//判断发布的类型
     private String Blogs_img;//上传图片
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date Blogs_time;//发布时间
     private Integer Blogs_like;//点赞数
     private Integer Blogs_state;//博文状态
     private List<User> user;
     private List<Comment> comment;
+    private List<User_table> user_table;
     private String fabu_time;
     private Integer Status;
     private String Img_path;//头像路径
@@ -29,7 +31,7 @@ public class SyjBlgos {
     public SyjBlgos() {
     }
 
-    public SyjBlgos(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, List<User> user, List<Comment> comment, String fabu_time, Integer status) {
+    public SyjBlgos(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, List<User> user, List<Comment> comment, List<User_table> user_table, String fabu_time, Integer status) {
         Blogs_id = blogs_id;
         User_id = user_id;
         Blogs_content = blogs_content;
@@ -40,6 +42,7 @@ public class SyjBlgos {
         Blogs_state = blogs_state;
         this.user = user;
         this.comment = comment;
+        this.user_table = user_table;
         this.fabu_time = fabu_time;
         Status = status;
     }
@@ -57,6 +60,14 @@ public class SyjBlgos {
         Img_path = img_path;
         User_name = user_name;
         CommentCount = commentCount;
+    }
+
+    public List<User_table> getUser_table() {
+        return user_table;
+    }
+
+    public void setUser_table(List<User_table> user_table) {
+        this.user_table = user_table;
     }
 
     public Integer getBlogs_id() {
@@ -177,5 +188,24 @@ public class SyjBlgos {
 
     public void setCommentCount(int commentCount) {
         CommentCount = commentCount;
+    }
+
+    @Override
+    public String toString() {
+        return "SyjBlgos{" +
+                "Blogs_id=" + Blogs_id +
+                ", User_id=" + User_id +
+                ", Blogs_content='" + Blogs_content + '\'' +
+                ", Blogs_type=" + Blogs_type +
+                ", Blogs_img='" + Blogs_img + '\'' +
+                ", Blogs_time=" + Blogs_time +
+                ", Blogs_like=" + Blogs_like +
+                ", Blogs_state=" + Blogs_state +
+                ", user=" + user +
+                ", comment=" + comment +
+                ", user_table=" + user_table +
+                ", fabu_time='" + fabu_time + '\'' +
+                ", Status=" + Status +
+                '}';
     }
 }

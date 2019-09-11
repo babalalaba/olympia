@@ -22,10 +22,11 @@ public class Blogs  implements Serializable {
     private Integer Blogs_state;//博文状态
     private List<User> user;
     private List<Comment> comment;
+    private List<Friend> friend;
     public Blogs() {
     }
 
-    public Blogs(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, List<User> user, List<Comment> comment) {
+    public Blogs(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, List<User> user, List<Comment> comment, List<Friend> friend) {
         Blogs_id = blogs_id;
         User_id = user_id;
         Blogs_content = blogs_content;
@@ -36,6 +37,15 @@ public class Blogs  implements Serializable {
         Blogs_state = blogs_state;
         this.user = user;
         this.comment = comment;
+        this.friend = friend;
+    }
+
+    public List<Friend> getFriend() {
+        return friend;
+    }
+
+    public void setFriend(List<Friend> friend) {
+        this.friend = friend;
     }
 
     public List<User> getUser() {
@@ -131,6 +141,7 @@ public class Blogs  implements Serializable {
                 ", Blogs_state=" + Blogs_state +
                 ", user=" + user +
                 ", comment=" + comment +
+                ", friend=" + friend +
                 '}';
     }
 }
