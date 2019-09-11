@@ -1,6 +1,5 @@
 package com.newer.olympia.domain;
 
-import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,14 +12,16 @@ public class Album implements Serializable {
     private Integer User_id;//用户id
     private String Album_describe;//相册描述
     private Integer Album_like;//点赞数
-    private Data Album_time;
+/*    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")*/
+    private String Album_time;
     private List<User> user;
     private List<Picture> picture;
 
     public Album() {
     }
 
-    public Album(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer album_like, Data album_time, List<User> user, List<Picture> picture) {
+    public Album(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer album_like, String album_time, List<User> user, List<Picture> picture) {
         Album_id = album_id;
         Album_name = album_name;
         Picture_id = picture_id;
@@ -80,11 +81,11 @@ public class Album implements Serializable {
         Album_like = album_like;
     }
 
-    public Data getAlbum_time() {
+    public String getAlbum_time() {
         return Album_time;
     }
 
-    public void setAlbum_time(Data album_time) {
+    public void setAlbum_time(String album_time) {
         Album_time = album_time;
     }
 

@@ -1,7 +1,6 @@
 package com.newer.olympia.domain;
 
 
-import javax.xml.crypto.Data;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class ProfilePage_Photos_07 implements Serializable {
     private Integer User_id;//用户id
     private String Album_describe;//相册描述
     private Integer Album_like;//点赞数
-    private Data Album_time;//创建时间
+    private String Album_time;//创建时间
     private Integer Picture_count;//照片数
     private Integer Album_comment_count;//评论数
     private String Picture_path;//封面路径
@@ -27,7 +26,7 @@ public class ProfilePage_Photos_07 implements Serializable {
     public ProfilePage_Photos_07() {
     }
 
-    public ProfilePage_Photos_07(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer album_like, Data album_time, Integer picture_count, Integer album_comment_count, String picture_path, String img_path, String user_name, List<Picture> pictures) {
+    public ProfilePage_Photos_07(Integer album_id, String album_name, Integer picture_id, Integer user_id, String album_describe, Integer album_like, String album_time, Integer picture_count, Integer album_comment_count, String picture_path, String img_path, String user_name, List<Picture> pictures) {
         Album_id = album_id;
         Album_name = album_name;
         Picture_id = picture_id;
@@ -115,11 +114,11 @@ public class ProfilePage_Photos_07 implements Serializable {
         Album_like = album_like;
     }
 
-    public Data getAlbum_time() {
+    public String getAlbum_time() {
         return Album_time;
     }
 
-    public void setAlbum_time(Data album_time) {
+    public void setAlbum_time(String album_time) {
         Album_time = album_time;
     }
 
