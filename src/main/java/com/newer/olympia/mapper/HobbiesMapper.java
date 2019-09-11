@@ -34,7 +34,8 @@ public interface HobbiesMapper {
     @Insert("insert into friend (User_id,Friend_user_id,Friend_time) values(#{User_id},#{Friend_user_id},now()) ")
     public int insertFriend(Friend friend);
 
-    //查找 根据用户id查询所有好友请求
+    //查找 根据用户id查询所有好友请求，只有申请添加的id等于用户时，
+    // 就显示好友请求，只有被申请的用户才可看到
     public List<Apply> findAllByUser(@Param("User_id")Integer User_id);
     //查找有这个用户。就往申请表添加数据
     @Insert("insert into apply(User_id,Apply_user_id) values(#{User_id},#{Apply_user_id})")
@@ -57,7 +58,7 @@ public interface HobbiesMapper {
             "values(#{Comment_user_id},#{Blogs_id},#{Comment_content},#{Comment_time},#{User_id})")
     public  int insertComment(Comment c);
     //根据发布的动态ID查询该用户发布的动态下所有的评论
-    public List<FriendComment> selectCommentAllByid(@Param("User_id") int User_id, @Param("Blogs_id") int Blogs_id, @Param("pageNo")int pageNo,@Param("pageNoSize")Integer pageNoSize);
+    public List<FriendComment> selectCommentAllByid(@Param("Blogs_id") int Blogs_id, @Param("pageNo")int pageNo,@Param("pageNoSize")Integer pageNoSize);
     //查询总页数
     @Select("select count(*) from comment where Blogs_id = #{Blogs_id}")
     public int  selectTotlaPage(int Blogs_id);
@@ -67,8 +68,8 @@ public interface HobbiesMapper {
     @Select("select Status from User_table where Blogs_id=#{Blogs_id}")
     public List<User_table> selectLike(int Blogs_id);
     //根据用户ID和动态ID 查询该动态下的所有评论的评论数
-    @Select("SELECT COUNT(Comment_id) FROM COMMENT WHERE User_id=#{User_id} and Blogs_id= #{Blogs_id}")
-    public int selectCommentCount(@Param("User_id") int User_id,@Param("Blogs_id") int Blogs_id);
+    @Select("SELECT COUNT(Comment_id) FROM COMMENT WHERE  Blogs_id= #{Blogs_id}")
+    public int selectCommentCount(@Param("Blogs_id") int Blogs_id);
     //点赞时加一，取消点赞减一
     @Select("select * from User_table where  User_id=#{User_id} and Blogs_id=#{Blogs_id}")
     public User_table Utablealling(@Param("User_id")Integer User_id,@Param("Blogs_id")Integer Blogs_id);
@@ -77,7 +78,7 @@ public interface HobbiesMapper {
     @Delete("delete from blogs where Blogs_id=#{Blogs_id}")
     public int delBlogsing(@Param("Blogs_id")Integer Blogs_id);
     //点赞时显示好友头像，取消点赞不显示好友头像
-    public List<User_table> User_tableing(@Param("User_id")Integer User_id,@Param("Blogs_id")Integer Blogs_id);
+    public List<User_table> User_tableing(@Param("Blogs_id")Integer Blogs_id);
     //分页发布的动态
     public List<SyjBlgos> selectBlogsAllByiding(@Param("pageNo")Integer pageNo,@Param("pageNoSize")Integer pageNoSize);
     //查询博客总页数
@@ -86,4 +87,10 @@ public interface HobbiesMapper {
     //上传背景图
     @Update("update user set User_title_img=#{User_title_img} where User_name=#{User_name}")
     public int updataUsertitle_img(@Param("User_title_img")String User_title_img,@Param("User_name")String User_name);
+    //博客被举报，将Blogs_state状态改为2
+    @Update("update blogs set Blogs_season=#{Blogs_season},Blogs_state=2 where Blogs_id=#{Blogs_id}")
+    public int updaBlogsyd(@Param("Blogs_season")String Blogs_season,@Param("Blogs_id")Integer Blogs_id);
+    //博客用户要驳回，将Blogs_state状态改为4
+    @Update("update blogs set Blogs_season=#{Blogs_season},Blogs_state=4 where Blogs_id=#{Blogs_id}")
+    public int updaBlogsbohui(@Param("Blogs_season")String Blogs_season,@Param("Blogs_id")Integer Blogs_id);
 }

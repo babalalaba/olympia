@@ -106,8 +106,8 @@ public class HobbiesServiceImpl implements  HobbiesService {
     }
 
     @Override
-    public List<FriendComment> selectCommentAllByid(int User_id, int Blogs_id, int pageNo,int pageNoSize) {
-        return hobbiesMapper.selectCommentAllByid(User_id,Blogs_id,pageNo,pageNoSize);
+    public List<FriendComment> selectCommentAllByid(int Blogs_id, int pageNo,int pageNoSize) {
+        return hobbiesMapper.selectCommentAllByid(Blogs_id,pageNo,pageNoSize);
     }
 
     @Override
@@ -126,8 +126,8 @@ public class HobbiesServiceImpl implements  HobbiesService {
     }
 
     @Override
-    public int selectCommentCount(int User_id, int Blogs_id) {
-        return hobbiesMapper.selectCommentCount(User_id,Blogs_id);
+    public int selectCommentCount( int Blogs_id) {
+        return hobbiesMapper.selectCommentCount(Blogs_id);
     }
 
     @Override
@@ -146,8 +146,8 @@ public class HobbiesServiceImpl implements  HobbiesService {
     }
 
     @Override
-    public List<User_table> User_tableing(Integer User_id, Integer Blogs_id) {
-        return hobbiesMapper.User_tableing(User_id,Blogs_id);
+    public List<User_table> User_tableing(Integer Blogs_id) {
+        return hobbiesMapper.User_tableing(Blogs_id);
     }
 
     @Override
@@ -165,5 +165,13 @@ public class HobbiesServiceImpl implements  HobbiesService {
         return hobbiesMapper.updataUsertitle_img(User_title_img,User_name);
     }
 
+    @Override
+    public int updaBlogsyd(String Blogs_season, Integer Blogs_id) {
+        return hobbiesMapper.updaBlogsyd(Blogs_season,Blogs_id);
+    }
+    @Override
+    public int updaBlogsbohui(String Blogs_season, Integer Blogs_id) {
+        return hobbiesMapper.updaBlogsbohui(Blogs_season,Blogs_id);
+    }
 
 }

@@ -28,8 +28,8 @@ public interface UserService {
     //查询上传照片
     public List<Picture> PictureAllBy(Integer User_id);
     //修改头像
-    public int updUsering(Integer User_img,Integer User_id);
-    //查询 用户更新后的信息
-    public List<User> findUserImg(Integer User_id);
+    public int updUsering(String User_img,String User_name);
+    //查询加好友时用户更新后的信息
+    public List<User> findUserImg(String User_name);
 
 }

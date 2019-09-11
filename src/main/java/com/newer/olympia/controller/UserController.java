@@ -54,11 +54,11 @@ public class UserController {
         return new ResponseEntity<>(i, HttpStatus.OK);
     }
 
-    //根据ID查询用户
+    //根据ID查询用户;查询加好友时用户更新后的信息
     @PostMapping("/FindUser")
-    public ResponseEntity<?> FindUser(Integer User_id) {
-        List<User> users = userService.findUserImg(User_id);
-        System.out.println(users+"用户");
+    public ResponseEntity<?> FindUser(String User_name) {
+        List<User> users = userService.findUserImg(User_name);
+        System.out.println(users+"用户88");
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
@@ -111,32 +111,33 @@ public class UserController {
 
     @RequestMapping("/allPicture")
     public ResponseEntity<?> allPicture(@RequestParam(value = "file",required = false)MultipartFile file,
-                                        @RequestParam("User_id")Integer User_id) {
-        System.out.println(User_id+"141314");
+                                        @RequestParam("User_name") String User_name) {
+        System.out.println(User_name+"141314");
         System.out.println(file+"888888===");
         String filePath = null;
         if (!file.isEmpty()) {
             try {
                 // 文件保存路径
-                filePath = "H:\\spring\\nginx-1.16.0\\html\\word\\img\\"+User_id+".jpg";
+                filePath = "H:\\spring\\nginx-1.16.0\\html\\word\\img\\"+User_name+".jpg";
                 System.out.println(filePath);
                 // 转存文件
                 file.transferTo(new File(filePath));
                 /*filePath = "imgs/"+User_id+"/.jpg";*/
-                filePath = "/"+User_id+".jpg";
+                filePath = "/"+User_name+".jpg";
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        Picture p=new Picture();
+       /* Picture p=new Picture();
         p.setPicture_path(filePath);
         p.setUser_id(User_id);
         int i = userService.allPicture(p);
         System.out.println(i + "上传成功");
         System.out.println(p.getPicture_id());
-        int Picture_id= p.getPicture_id();
-        userService.updUsering(p.getPicture_id(),User_id);
-        return new ResponseEntity<>(Picture_id, HttpStatus.OK);
+        int Picture_id= p.getPicture_id();*/
+        int i = userService.updUsering(filePath, User_name);
+        System.out.println(i + "上传成功");
+        return new ResponseEntity<>(i, HttpStatus.OK);
     }
    /* //查询上传照片
     @PostMapping("/FindMessages")
@@ -145,5 +146,10 @@ public class UserController {
         System.out.println(pictures);
         return new ResponseEntity<>(pictures, HttpStatus.OK);
     }*/
-
+   //根据ID查询用户
+   @PostMapping("/FindUsering")
+   public ResponseEntity<?> FindUsering(Integer User_id) {
+       List<User> users = userService.FindUser(User_id);
+       return new ResponseEntity<>(users, HttpStatus.OK);
+   }
 }
