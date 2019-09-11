@@ -19,4 +19,43 @@ public interface HobbiesService {
     public List<Friend> FriendAll(Integer User_id);
     //主页勋章显示
     public List<Medal_user> MedalAll(Integer User_id);
+    //好友添加
+    public  Integer friend(Integer friend , Integer Apply_id);
+    //查询 待添加的好友
+    public List<Apply> findAllByUser(Integer User_id);
+    //查找有这个用户。就往申请表添加数据
+    public int insertApplys(Apply apply);
+    //查询主页博客好友点赞
+    public List<User_table> FindUtableall(Integer User_id,Integer Blogs_id);
+    //点赞一次
+    public int inserUtable(User_table u);
+    //取消点赞
+    public int delUtable(Integer User_table_id);
+    //修改点赞状态
+    public int updateUtable(User_table u);
+    //增加一条评论
+    public  int insertComment(Comment c);
+    //根据用户ID和动态ID 查询该动态下的所有评论
+    public List<FriendComment>  selectCommentAllByid(int User_id, int Blogs_id, int pageNo,int pageNoSize);
+    //查询总页数
+    public int  selectTotlaPage(int Blogs_id);
+    //根据用户ID查询用户所有的动态
+    public List<SyjBlgos> selectBlogsAllByid();
+    //查询点赞数
+    public List<User_table> selectLike(int Blogs_id);
+    //根据用户ID和动态ID 查询该动态下的所有评论的评论数
+    public int selectCommentCount(int User_id,int Blogs_id);
+    //点赞时显示好友头像，取消点赞不显示好友头像
+    public User_table Utablealling(Integer User_id,Integer Blogs_id);
+    public List<User_table> Utablealltupian();
+    //删除主页博客
+    public int delBlogsing(Integer Blogs_id);
+    //点赞时显示好友头像，取消点赞不显示好友头像
+    public List<User_table> User_tableing(Integer User_id,Integer Blogs_id);
+    //分页发布的动态
+    public List<SyjBlgos> selectBlogsAllByiding(Integer pageNo,Integer pageNoSize);
+    //查询博客总页数
+    public int  TotlaPage();
+    //上传背景图
+    public int updataUsertitle_img(String User_title_img,String User_name);
 }

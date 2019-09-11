@@ -23,6 +23,7 @@ public class Blogs  implements Serializable {
     private String Blogs_season;//举报理由或驳回理由
     private List<User> user;
     private List<Comment> comment;
+    private List<Friend> friend;
     public Blogs() {
     }
 
@@ -38,6 +39,15 @@ public class Blogs  implements Serializable {
         Blogs_season = blogs_season;
         this.user = user;
         this.comment = comment;
+        this.friend = friend;
+    }
+
+    public List<Friend> getFriend() {
+        return friend;
+    }
+
+    public void setFriend(List<Friend> friend) {
+        this.friend = friend;
     }
 
     public Blogs(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, String blogs_season) {
@@ -151,9 +161,9 @@ public class Blogs  implements Serializable {
                 ", Blogs_time=" + Blogs_time +
                 ", Blogs_like=" + Blogs_like +
                 ", Blogs_state=" + Blogs_state +
-                ", Blogs_season='" + Blogs_season + '\'' +
                 ", user=" + user +
                 ", comment=" + comment +
+                ", friend=" + friend +
                 '}';
     }
 }

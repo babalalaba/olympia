@@ -4,12 +4,13 @@ package com.newer.olympia.service;/*
  * */
 
 import com.newer.olympia.domain.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface UserService {
-    //查询用户，并显示头像
-    public List<User> FindUser();
+    //根据ID查询用户，并显示头像
+    public List<User> FindUser(Integer User_id);
     //查询留言板
     public List<Messages> FindMessages(Integer User_id);
     //修改留言板
@@ -23,5 +24,12 @@ public interface UserService {
     //将未读博客信息改成已读
     public int updateBlog(Inform b);
     //Picture照片表上传
-    public List<Picture> allPicture(Integer User_id);
+    public int allPicture(Picture p);
+    //查询上传照片
+    public List<Picture> PictureAllBy(Integer User_id);
+    //修改头像
+    public int updUsering(Integer User_img,Integer User_id);
+    //查询 用户更新后的信息
+    public List<User> findUserImg(Integer User_id);
+
 }

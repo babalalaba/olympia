@@ -3,10 +3,11 @@ package com.newer.olympia.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class SyjBlgos {
+public class SyjBlgos implements Serializable {
 
     private static final long serialVersionUID = -7434725189264952354L;
     private Integer Blogs_id;//id
@@ -21,12 +22,13 @@ public class SyjBlgos {
     private Integer Blogs_state;//博文状态
     private List<User> user;
     private List<Comment> comment;
+    private List<User_table> user_table;
     private String fabu_time;
     private Integer Status;
     public SyjBlgos() {
     }
 
-    public SyjBlgos(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, List<User> user, List<Comment> comment, String fabu_time, Integer status) {
+    public SyjBlgos(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, List<User> user, List<Comment> comment, List<User_table> user_table, String fabu_time, Integer status) {
         Blogs_id = blogs_id;
         User_id = user_id;
         Blogs_content = blogs_content;
@@ -37,8 +39,17 @@ public class SyjBlgos {
         Blogs_state = blogs_state;
         this.user = user;
         this.comment = comment;
+        this.user_table = user_table;
         this.fabu_time = fabu_time;
         Status = status;
+    }
+
+    public List<User_table> getUser_table() {
+        return user_table;
+    }
+
+    public void setUser_table(List<User_table> user_table) {
+        this.user_table = user_table;
     }
 
     public Integer getBlogs_id() {
@@ -135,5 +146,24 @@ public class SyjBlgos {
 
     public void setStatus(Integer status) {
         Status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "SyjBlgos{" +
+                "Blogs_id=" + Blogs_id +
+                ", User_id=" + User_id +
+                ", Blogs_content='" + Blogs_content + '\'' +
+                ", Blogs_type=" + Blogs_type +
+                ", Blogs_img='" + Blogs_img + '\'' +
+                ", Blogs_time=" + Blogs_time +
+                ", Blogs_like=" + Blogs_like +
+                ", Blogs_state=" + Blogs_state +
+                ", user=" + user +
+                ", comment=" + comment +
+                ", user_table=" + user_table +
+                ", fabu_time='" + fabu_time + '\'' +
+                ", Status=" + Status +
+                '}';
     }
 }

@@ -17,10 +17,10 @@ public class Education implements Serializable {
     public Education() {
     }
 
-    public Education(Integer education_id, String education_site, String education__time, String education_describe, Integer user_id) {
+    public Education(Integer education_id, String education_site, String education_time, String education_describe, Integer user_id) {
         Education_id = education_id;
         Education_site = education_site;
-        Education_time = education__time;
+        Education_time = education_time;
         Education_describe = education_describe;
         User_id = user_id;
     }
@@ -41,12 +41,12 @@ public class Education implements Serializable {
         Education_site = education_site;
     }
 
-    public String getEducation__time() {
+    public String getEducation_time() {
         return Education_time;
     }
 
-    public void setEducation__time(String education__time) {
-        Education_time = education__time;
+    public void setEducation_time(String education_time) {
+        Education_time = education_time;
     }
 
     public String getEducation_describe() {

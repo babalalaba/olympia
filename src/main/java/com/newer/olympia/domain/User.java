@@ -39,11 +39,19 @@ public class User implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date User_login_time;//用户最后一次登录时间
-
+    private String User_title_img;//用户标题图片
     public User() {
     }
 
-    public User(Integer user_id, String user_last_name, String user_name, String user_email, Date user_birthday, String user_sex, String user_pwd, String user_mobile, String user_state, String user_img, String user_province, String user_city, String user_describe, String user_birthplace, String user_job, String user_marriage, String user_faith, String user_politics, Date user_time, Integer user_count, Integer user_authentication, String user_id_card, Integer user_safety, Date user_login_time) {
+    public String getUser_title_img() {
+        return User_title_img;
+    }
+
+    public void setUser_title_img(String user_title_img) {
+        User_title_img = user_title_img;
+    }
+
+    public User(Integer user_id, String user_last_name, String user_name, String user_email, Date user_birthday, String user_sex, String user_pwd, String user_mobile, String user_state, String user_img, String user_province, String user_city, String user_describe, String user_birthplace, String user_job, String user_marriage, String user_faith, String user_politics, Date user_time, Integer user_count, Integer user_authentication, String user_id_card, Integer user_safety, Date user_login_time, String user_title_img) {
         User_id = user_id;
         User_last_name = user_last_name;
         User_name = user_name;
@@ -68,6 +76,7 @@ public class User implements Serializable {
         User_id_card = user_id_card;
         User_safety = user_safety;
         User_login_time = user_login_time;
+        User_title_img = user_title_img;
     }
 
     public Integer getUser_id() {

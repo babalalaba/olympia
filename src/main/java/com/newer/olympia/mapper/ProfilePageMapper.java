@@ -2,13 +2,10 @@ package com.newer.olympia.mapper;
 
 
 import com.newer.olympia.domain.*;
-import com.newer.olympia.util.Pager;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 /*
@@ -21,7 +18,7 @@ import java.util.List;
 @Repository
 public interface ProfilePageMapper {
     //根据用户ID查询所有发布的动态
-    @Select("select * from  Blogs where User_id=#{User_id}")
+    @Select("select * from  Blogs where User_id=#{User_id} and Blogs_type=1")
     public List<SyjBlgos> selectBlogsAllByid(@Param("User_id") int User_id);
 
     //根据发布的动态ID查询该用户发布的动态下所有的评论
@@ -63,4 +60,88 @@ public interface ProfilePageMapper {
     //新增点赞
     @Insert("insert into User_table value(null,#{User_id},#{Blogs_id},1,now())")
     public int insertUser_table(int User_id,int Blogs_id);
+
+    //查询用户教育历史
+    @Select("select * from Education where User_id = #{User_id}")
+    public List<Education> selectEducation(int User_id);
+
+    //查询用户工作史
+    @Select("select * from Job where User_id =#{User_id}")
+    public List<Job> selectJob(int User_id);
+
+    //根据用户ID 查询用户好友
+    @Select("select * from Friend where User_id = #{User_id}")
+    public List<Friend> selectFriend(int User_id);
+
+    //查询好友数
+    @Select("select count(*) from Friend where User_id=#{User_id}")
+    public int selectFriendCount(int User_id);
+
+    //查询上传的相片数量
+    @Select("select count(*) from picture where User_id = #{User_id}")
+    public int selectPictureAmount (int User_id);
+
+    //查询用户博客发布数量
+    @Select("select count(*) from Blogs where User_id = #{User_id} and Blogs_type = 2")
+    public int selectBlogsAmount (int User_id);
+
+    //查询用户成为自己好友的时间
+    @Select("select Friend_time from Friend where User_id = #{User_id} and Friend_user_id = #{Friend_user_id}")
+    public Date selectBecomeTime (int User_id ,int Friend_user_id);
+
+    //根据用户名查询用户
+    @Select("select f.* from friend f,User u where  f.User_id = #{User_id} and Friend_user_id = u.User_id and u.User_name like '${User_name}%'")
+    public List<Friend> selectUserByName(int User_id ,String User_name);
+
+    //查询好友数
+    @Select("SELECT COUNT(f.`Friend_id`) FROM friend f,USER u WHERE f.`User_id` = ${User_id} AND f.`Friend_user_id` = u.`User_id` AND u.`User_name` LIKE '${User_name}%';")
+    public int selectFriendCountByName(int User_id,String User_name);
+
+    //删除好友
+    @Delete("delete from Friend where User_id = #{User_id} and Friend_user_id = #{Friend_user_id}")
+    public int deleteFriend(int User_id,int Friend_user_id);
+
+    //查询相册名为否存在
+    @Select("select * from album where Album_name = #{Album_name} and User_id = #{User_id}")
+    public Album selectAlbum(String Album_name,int User_id);
+
+    //新增相册
+    @Insert("insert into album value (null,#{Album_name},#{Picture_id},#{User_id},#{Album_describe},0,now())")
+    public int insertAlbum(String Album_name,int Picture_id,int User_id,String Album_describe);
+
+    //新增照片
+    @Insert("insert into picture value(null,#{Picture_path},#{User_id},#{Album_name})")
+    public int insertpicture(String Picture_path,int User_id,String Album_name);
+
+    //根据路径查询照片
+    @Select("select * from picture where Picture_path = #{Picture_path} and User_id = #{User_id}")
+    public Picture selectPictureByPath(String Picture_path,int User_id);
+
+    //根据用户ID查询所有相册
+    @Select("select * from album where User_id = #{User_id}")
+    public List<Album> selectAlbumAll(int User_id);
+
+    //根据相册里面查询有多少张相片
+    @Select("select count(*) from picture where Album_name = #{Album_name}")
+    public int selectPictureCount(String Album_name);
+
+    //查询相册评论数量
+    @Select("select count(Comment_id) from album_comment where Album_id = #{Album_id}")
+    public int selectAlbum_commentCount(int Album_id);
+
+    //查询相册数量
+    @Select("select count(Album_id) from album where User_id = #{User_id}")
+    public int selectAlbumCount(int User_id);
+
+    //根据照片ID查询照片路径
+    @Select("select Picture_path from picture where  Picture_id = #{Picture_id}")
+    public String selectPicture_pathById(int Picture_id);
+
+    //根据相册名以及用户ID 查询所有照片
+    @Select("select * from picture where  Album_name = #{Album_name} and User_id = #{User_id}")
+    public List<Picture> selectPicture(String Album_name,int User_id);
+
+    //根据ID查询  封面照片
+    @Select("select * from picture where Picture_id = #{Picture_id}")
+    public Picture selectPictureById(int Picture_id);
 }

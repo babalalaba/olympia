@@ -1,3 +1,4 @@
+/*
 package com.newer.olympia.config;
 
 
@@ -18,9 +19,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
+*/
 /**
  * 自定义的拦截器
- */
+ *//*
+
 @Component
 public class MyInterceptor implements HandlerInterceptor {
 
@@ -84,3 +87,4 @@ public class MyInterceptor implements HandlerInterceptor {
         System.out.println("进入了afterCompletion的方法....");
     }
 }
+*/
