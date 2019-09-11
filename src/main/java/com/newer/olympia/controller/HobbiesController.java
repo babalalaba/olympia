@@ -27,7 +27,6 @@ public class HobbiesController {
     @PostMapping("/HobbiesAll")
     public ResponseEntity<?> HobbiesAll(Integer User_id) {
         List<Hobbies> hobbies = hobbiesService.hobbiesAll(User_id);
-        System.out.println(hobbies);
         return new ResponseEntity<>(hobbies, HttpStatus.OK);
     }
 
@@ -83,13 +82,13 @@ public class HobbiesController {
     @GetMapping("/findAllByUser")
     public ResponseEntity<?> findAllByUser(Integer User_id) {
         List<Apply> applyList = hobbiesService.findAllByUser(User_id);
-        System.out.println(applyList + "好友");
         return new ResponseEntity<>(applyList, HttpStatus.OK);
     }
 
     //申请数量
     @PostMapping("/findUserSize")
     public ResponseEntity<?> findUserSize(Integer User_id) {
+        System.out.println(User_id+"rrr");
         List<Apply> applyList = hobbiesService.findAllByUser(User_id);
         System.out.println(applyList.size() + "申请人数");
         return new ResponseEntity<>(applyList.size(), HttpStatus.OK);
@@ -175,7 +174,7 @@ public class HobbiesController {
 
     //根据发布的动态ID 查询该用户发布的动态下所有的评论
     @PostMapping("/selectCommentAllByid")
-    public ResponseEntity<?> selectCommentAllByid(@Param("User_id") int User_id, @Param("Blogs_id") int Blogs_id, @Param("pageNo") int pageNo) {
+    public ResponseEntity<?> selectCommentAllByid( @Param("Blogs_id") int Blogs_id, @Param("pageNo") int pageNo) {
         if (pageNo==0) {
             pageNo = 1;
         }
@@ -184,7 +183,7 @@ public class HobbiesController {
         System.out.println(pageNo1 + "首页");
         System.out.println(pageNoSize + "大小");
         int totlaPage = hobbiesService.selectTotlaPage(Blogs_id);
-        List<FriendComment> friendComments = hobbiesService.selectCommentAllByid(User_id, Blogs_id, pageNo1,pageNoSize);
+        List<FriendComment> friendComments = hobbiesService.selectCommentAllByid(Blogs_id, pageNo1,pageNoSize);
         List<FriendComment> commentList = new ArrayList<>();
         //封装总页数
         double tc = totlaPage;
@@ -416,16 +415,15 @@ public class HobbiesController {
 
     //根据用户ID和动态ID 查询该动态下的所有评论的评论数
     @PostMapping("/selectCommentCount")
-    public ResponseEntity<?> selectCommentCount(@Param("User_id") int User_id, @Param("Blogs_id") int Blogs_id) {
-        int count = hobbiesService.selectCommentCount(User_id, Blogs_id);
+    public ResponseEntity<?> selectCommentCount( @Param("Blogs_id") int Blogs_id) {
+        int count = hobbiesService.selectCommentCount( Blogs_id);
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
     //查询主页博客好友点赞
     @PostMapping("/Utablealltupian")
-    public ResponseEntity<?> Utablealltupian(Integer User_id, Integer Blogs_id) {
-        List<User_table> table = hobbiesService.User_tableing(User_id, Blogs_id);
-        System.out.println(table + "好友头像888=====");
+    public ResponseEntity<?> Utablealltupian( Integer Blogs_id) {
+        List<User_table> table = hobbiesService.User_tableing(Blogs_id);
         return new ResponseEntity<>(table, HttpStatus.OK);
     }
 
@@ -596,5 +594,17 @@ public class HobbiesController {
         int i = hobbiesService.updataUsertitle_img(filePath, User_name);
         System.out.println(i+"上传背景成功");
         return  new ResponseEntity<>(i,HttpStatus.OK);
+    }
+    @PostMapping("/updaBlogsyd")
+    public ResponseEntity<?> updaBlogsyd(String Blogs_season, Integer Blogs_id){
+        int i = hobbiesService.updaBlogsyd(Blogs_season, Blogs_id);
+        System.out.println(i+"举报成功");
+        return new ResponseEntity<>(i,HttpStatus.OK);
+    }
+    @PostMapping("/updaBlogsbohui")
+    public ResponseEntity<?> updaBlogsbohui(String Blogs_season, Integer Blogs_id){
+        int i = hobbiesService.updaBlogsbohui(Blogs_season, Blogs_id);
+        System.out.println(i+"驳回成功");
+        return new ResponseEntity<>(i,HttpStatus.OK);
     }
 }

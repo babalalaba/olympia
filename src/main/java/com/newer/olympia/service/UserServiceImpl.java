@@ -59,13 +59,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updUsering(Integer User_img, Integer User_id) {
-        return userMapper.updUsering(User_img,User_id);
+    public int updUsering(String User_img, String User_name) {
+        return userMapper.updUsering(User_img,User_name);
     }
 
     @Override
-    public List<User> findUserImg(Integer User_id) {
-        return userMapper.findUserImg(User_id);
+    public List<User> findUserImg(String User_name) {
+        return userMapper.findUserImg(User_name);
     }
 
 

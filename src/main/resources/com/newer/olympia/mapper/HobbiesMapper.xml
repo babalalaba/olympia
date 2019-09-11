@@ -87,13 +87,8 @@
         </collection>
     </resultMap>
     <select id="FriendAll" resultMap="friend_a" parameterType="int">
-        select f.*,t.Picture_path  User_img,u.User_id,u.User_authentication ,
-        u.User_birthday ,u.User_birthplace ,u.User_city ,u.User_count ,u.User_describe ,
-        u.User_email ,u.User_faith ,u.User_id_card ,u.User_job ,u. User_last_name ,
-        u. User_login_time ,u. User_marriage ,u. User_mobile ,u. User_name ,u. User_politics ,
-        u. User_province ,u. User_safety , u. User_sex , u. User_state , u. User_time
-        from Friend f left join  User u on f.User_id=u.User_id left join picture t on u.User_img = t.picture_id where
-        f.User_id=#{User_id}
+        select f.*,u.* from Friend f left join  User u on f.User_id=u.User_id
+        where f.User_id=#{User_id}
     </select>
 
 
@@ -128,8 +123,8 @@
     </resultMap>
 
     <select id="findAllByUser" resultMap="Apply_a" parameterType="int">
-       select a.*,u.User_name,p.Picture_path as User_img from apply a,user u,picture p  where
-        u.User_img=p.Picture_id and a.User_id=u.User_id and a.user_id = #{User_id}
+       select a.*,u.User_id,u.User_img,u.User_name from apply a,user u  where
+        a.User_id=u.User_id and a.Apply_user_id= #{User_id}
     </select>
     <resultMap id="Table_t" type="com.newer.olympia.domain.User_table">
         <id property="User_table_id" column="User_table_id"></id>
@@ -168,8 +163,8 @@
     </resultMap>
 
     <select id="FindUtableall" resultMap="Table_t" parameterType="int">
-       SELECT t.*,u.User_id,u.User_name,b.*,p.Picture_path AS User_img FROM user_table t,USER u,blogs b,picture p WHERE t.User_id=u.User_id
-       AND t.User_id=b.User_id AND u.User_img=p.Picture_id AND t.User_id=#{User_id} AND t.Blogs_id=#{Blogs_id}
+       SELECT t.*,u.User_id,u.User_img,u.User_name,b.* FROM user_table t,USER u,blogs b WHERE t.User_id=u.User_id
+       AND t.User_id=b.User_id AND t.User_id=#{User_id} AND t.Blogs_id=#{Blogs_id}
     </select>
 
     <resultMap id="fenye" type="com.newer.olympia.domain.FriendComment">
@@ -184,7 +179,7 @@
     </resultMap>
     <select id="selectCommentAllByid" resultMap="fenye">
         SELECT	c.*,u.User_id,u.User_name,u.User_img FROM COMMENT c ,
-        USER u WHERE c.Blogs_id = #{Blogs_id} and c.User_id = #{User_id}
+        USER u WHERE c.Blogs_id = #{Blogs_id}
          and c.User_id = u.User_id  limit #{pageNo},#{pageNoSize}
     </select>
 
@@ -219,8 +214,8 @@
         </collection>
     </resultMap>
     <select id="selectBlogsAllByid" resultMap="Blog_bb">
-      SELECT s.*,u.User_id,u.User_name,p.Picture_path AS User_img FROM blogs s,USER u,picture p
-        WHERE s.User_id=u.User_id  AND U.User_img = p.Picture_id
+      SELECT s.*,u.User_id,u.User_img,u.User_name  FROM blogs s,USER u
+        WHERE s.User_id=u.User_id
     </select>
 
     <resultMap id="Table_tab" type="com.newer.olympia.domain.User_table">
@@ -236,8 +231,8 @@
         </collection>
     </resultMap>
     <select id="User_tableing" resultMap="Table_tab" parameterType="int">
-       select t.*,u.User_id,u.User_name,p.Picture_path as User_img from user_table t,user u,picture p where t.User_id=u.User_id
-       and u.User_img=p.Picture_id  and t.User_id=#{User_id} and t.Blogs_id=#{Blogs_id}
+       select t.*,u.User_id,u.User_img,u.User_name from user_table t,user u where t.User_id=u.User_id
+      and t.Blogs_id=#{Blogs_id}
     </select>
 
     <resultMap id="tab" type="com.newer.olympia.domain.User_table">
@@ -253,8 +248,8 @@
         </collection>
     </resultMap>
     <select id="Utablealltupian" resultMap="tab" parameterType="int">
-       select t.*,u.User_id,u.User_name,p.Picture_path as User_img from user_table t,user u,
-       picture p where t.User_id=u.User_id and u.User_img=p.Picture_id
+       select t.*,u.User_id,u.User_img,u.User_name  from user_table t,user u
+        where t.User_id=u.User_id
     </select>
 
 
@@ -274,8 +269,8 @@
         </collection>
     </resultMap>
     <select id="selectBlogsAllByiding" resultMap="Blog_aab">
-      SELECT s.*,u.User_id,u.User_name,p.Picture_path AS User_img FROM blogs s,USER u,picture p
-        WHERE s.User_id=u.User_id  AND U.User_img = p.Picture_id  limit #{pageNo},#{pageNoSize}
+      SELECT s.*,u.User_id,u.User_img,u.User_name FROM blogs s,USER u
+        WHERE s.User_id=u.User_id  limit #{pageNo},#{pageNoSize}
     </select>
 </mapper>
 
