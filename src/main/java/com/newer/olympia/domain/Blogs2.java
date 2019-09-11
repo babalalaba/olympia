@@ -19,11 +19,12 @@ public class Blogs2 implements Serializable {
     private Date Blogs_time;//发布时间
     private Integer Blogs_like;//点赞数
     private Integer Blogs_state;//博文状态
+    private String Blogs_season;//举报理由或驳回理由
 
     public Blogs2() {
     }
 
-    public Blogs2(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state) {
+    public Blogs2(Integer blogs_id, Integer user_id, String blogs_content, Integer blogs_type, String blogs_img, Date blogs_time, Integer blogs_like, Integer blogs_state, String blogs_season) {
         Blogs_id = blogs_id;
         User_id = user_id;
         Blogs_content = blogs_content;
@@ -32,6 +33,7 @@ public class Blogs2 implements Serializable {
         Blogs_time = blogs_time;
         Blogs_like = blogs_like;
         Blogs_state = blogs_state;
+        Blogs_season = blogs_season;
     }
 
     public Integer getBlogs_id() {
@@ -96,5 +98,28 @@ public class Blogs2 implements Serializable {
 
     public void setBlogs_state(Integer blogs_state) {
         Blogs_state = blogs_state;
+    }
+
+    public String getBlogs_season() {
+        return Blogs_season;
+    }
+
+    public void setBlogs_season(String blogs_season) {
+        Blogs_season = blogs_season;
+    }
+
+    @Override
+    public String toString() {
+        return "Blogs2{" +
+                "Blogs_id=" + Blogs_id +
+                ", User_id=" + User_id +
+                ", Blogs_content='" + Blogs_content + '\'' +
+                ", Blogs_type=" + Blogs_type +
+                ", Blogs_img='" + Blogs_img + '\'' +
+                ", Blogs_time=" + Blogs_time +
+                ", Blogs_like=" + Blogs_like +
+                ", Blogs_state=" + Blogs_state +
+                ", Blogs_season='" + Blogs_season + '\'' +
+                '}';
     }
 }

@@ -1,9 +1,7 @@
 package com.newer.olympia.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.newer.olympia.domain.Encrypted;
-import com.newer.olympia.domain.Privacy;
-import com.newer.olympia.domain.User;
+import com.newer.olympia.domain.*;
 import com.newer.olympia.service.PersonalCenterService;
 import com.newer.olympia.util.HttpUtils;
 import org.apache.http.HttpResponse;
@@ -26,6 +24,8 @@ import java.util.Map;
 //本Controller功能目前为1、连接阿里云国家行政区规划数据库API 2、连接userServlet拿到用户表user中的数据和更改user数据
 @RestController
 public class PersonalCenterController {
+    //验证码
+    private String randNom;
     @Autowired
     private PersonalCenterService personalCenterService;
     //查询行政规划数据库
@@ -182,18 +182,21 @@ public class PersonalCenterController {
         String email=personalCenterService.selUserByUserId(user_id).getUser_email();
         if (email==null || email.equals("")){
             listMap.put("email","eNull");
+        }else {
+            listMap.put("email",email);
         }
         String moblie=personalCenterService.selUserByUserId(user_id).getUser_mobile();
         if (moblie==null || moblie.equals("")){
             listMap.put("mobile","mNull");
+        }else {
+            listMap.put("mobile",moblie);
         }
 
         return new ResponseEntity<>(listMap,HttpStatus.OK);
     }
-
+//更新密保问题
     @PostMapping("setEncrypted")
     public ResponseEntity<?> setEncrypted(String setQue1,String setAns1,String setQue2,String setAns2,String setQue3,String setAns3,int User_id){
-        System.out.println("进到setEncrypted里了！");
         List<Encrypted> list=personalCenterService.selEncAnsByUserId(User_id);
         if(!(list.size()>0)){
             Encrypted encrypted = null;
@@ -215,4 +218,191 @@ public class PersonalCenterController {
         }
         return new ResponseEntity<>(1,HttpStatus.OK);//密保已存在，不能再新增
         }
+
+        //获取手机验证码
+    @PostMapping("getRandomCode")
+    public ResponseEntity<?> getRandomCode(String User_mobile,int User_id){
+        User user=personalCenterService.selUserByUserId(User_id);
+        if (user.getUser_mobile().equals(User_mobile)){
+            Map<String,String> map=personalCenterService.getMoblieNo(User_mobile);
+            if (map.size()>0){
+                randNom=(String)map.get("rand");
+                //获取验证码成功
+                return new ResponseEntity<>(3,HttpStatus.OK);
+            }else {
+                //获取验证码失败
+                return new ResponseEntity<>(2,HttpStatus.OK);
+            }
+        }else {
+            //输入的手机号码并非该用户手机号码，返回1代表该错误
+            return new ResponseEntity<>(1,HttpStatus.OK);
+        }
+    }
+    //验证旧手机验证码
+    @PostMapping("checkVerCode")
+    public ResponseEntity<?> checkVerCode(String checkCode,int User_id){
+        if(checkCode.equals(randNom)){
+            return new ResponseEntity<>(1,HttpStatus.OK);//验证成功
+        }
+        return new ResponseEntity<>(2,HttpStatus.OK);//验证码错误
+    }
+
+//新手机号码随机验证码
+    @PostMapping("getNewRandomCode")
+    public ResponseEntity<?> getNewRandomCode(String User_mobile,int User_id){
+        System.out.println("新手机号："+User_mobile);
+            User user=personalCenterService.selUserByUserId(User_id);
+            Map<String,String> map=personalCenterService.getMoblieNo(User_mobile);
+            if (map.size()>0){
+                randNom=(String)map.get("rand");
+                //获取验证码成功
+                return new ResponseEntity<>(3,HttpStatus.OK);
+            }else {
+                //获取验证码失败
+                return new ResponseEntity<>(2,HttpStatus.OK);
+            }
+
+        }
+
+
+    //验证新的手机，以及保存新的手机号码
+    @PostMapping("updMobile")
+    public ResponseEntity<?> updMobile(String User_mobile,String checkCode,int User_id){
+        if(checkCode.equals(randNom)){
+            //保存新的手机号码
+            int count=personalCenterService.upChecodeByUserId(User_id,User_mobile);
+            if (count>0){
+                return new ResponseEntity<>(1,HttpStatus.OK);//保存成功
+            }
+            return new ResponseEntity<>(2,HttpStatus.OK);//保存失败
+        }
+        return new ResponseEntity<>(3,HttpStatus.OK);
+    }
+
+    /**********************************************兴趣和爱好controller*******************************************************/
+    @PostMapping("selHobbies")
+    //查询用户爱好
+    public ResponseEntity<?> selHobbies(int User_id){
+        System.out.println("进入selHobbies");
+        Hobbies hobbies=personalCenterService.selHobbies(User_id);
+        if (hobbies!=null){
+            return new ResponseEntity<>(hobbies,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null,HttpStatus.OK);
+    }
+
+    //保存用户爱好
+    @PostMapping("subHobbies")
+    public ResponseEntity<?> subHobbies(Hobbies hobbies){
+        Hobbies hobbie=personalCenterService.selHobbies(hobbies.getUser_id());
+        int count;
+        if (hobbie==null){
+            count=personalCenterService.subHobbies(hobbies);
+        }else {
+            count=personalCenterService.updHobbies(hobbies);
+
+        }
+        if (count>0){
+            return new ResponseEntity<>(1,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null,HttpStatus.OK);
+    }
+    //查询用户教育经历
+    @PostMapping("selEdu")
+    public ResponseEntity<?> selEdu(int User_id){
+        List<Education> list=personalCenterService.selEdu(User_id);
+        if (list.size()>0){
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null,HttpStatus.OK);
+    }
+    //查询用户工作经历
+    @PostMapping("selEmp")
+    public ResponseEntity<?> selEmp(int User_id){
+        List<Job> list=personalCenterService.selEmp(User_id);
+        if (list.size()>0){
+            return new ResponseEntity<>(list,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null,HttpStatus.OK);
+    }
+
+    //保存用户的教育信息
+    @PostMapping("subEdu")
+    public ResponseEntity<?> subEdu(int User_id,String sch1Name,String sch1Time,String sch1Dec,String sch2Name,String sch2Time,String sch2Dec,String sch3Name,String sch3Time,String sch3Dec){
+        Education education=new Education();
+        List<Education> list=personalCenterService.selEdu(User_id);
+        for (int i=0;i<3;i++){
+            if (i==0){
+                education.setUser_id(User_id);
+                education.setEducation_site(sch1Name);
+                education.setEducation__time(sch1Time);
+                education.setEducation_describe(sch1Dec);
+            }else if (i==1){
+                education.setUser_id(User_id);
+                education.setEducation_site(sch2Name);
+                education.setEducation__time(sch2Time);
+                education.setEducation_describe(sch2Dec);
+            }else if (i==2){
+                education.setUser_id(User_id);
+                education.setEducation_site(sch3Name);
+                education.setEducation__time(sch3Time);
+                education.setEducation_describe(sch3Dec);
+            }
+            int count;
+            if (list.size()>i){
+                    education.setEducation_id(list.get(i).getEducation_id());
+                    count = personalCenterService.updEdu(education);
+            }else {
+                count=personalCenterService.subEdu(education);
+            }
+            if (count<=0){
+                return new ResponseEntity<>(2,HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(1,HttpStatus.OK);
+    }
+    @PostMapping("subJob")
+    public ResponseEntity<?> subJob(int User_id,String job1Name,String job1Time,String job1Dec,String job2Name,String job2Time,String job2Dec,String job3Name,String job3Time,String job3Dec){
+        Job job=new Job();
+        List<Job> list=personalCenterService.selEmp(User_id);
+        for (int i=0;i<3;i++){
+            if (i==0){
+                job.setUser_id(User_id);
+                job.setJob_site(job1Name);
+                job.setJob_time(job1Time);
+                job.setJob_describe(job1Dec);
+            }else if (i==1){
+                job.setUser_id(User_id);
+                job.setJob_site(job2Name);
+                job.setJob_time(job2Time);
+                job.setJob_describe(job2Dec);
+            }else if (i==2){
+                job.setUser_id(User_id);
+                job.setJob_site(job3Name);
+                job.setJob_time(job3Time);
+                job.setJob_describe(job3Dec);
+            }
+            int count;
+            if (list.size()>i){
+               job.setJob_id(list.get(i).getJob_id());
+                count = personalCenterService.updJob(job);
+            }else {
+                count=personalCenterService.subJob(job);
+            }
+            if (count<=0){
+                return new ResponseEntity<>(2,HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(1,HttpStatus.OK);
+
+    }
+    @PostMapping("verConOne")
+    public ResponseEntity<?> verConOne(int Encrypted_id,String Encrypted_answer){
+        Encrypted encrypted=personalCenterService.selEncQueByENCId(Encrypted_id);
+        if (encrypted.getEncrypted_answer().equals(Encrypted_answer)){
+            return new ResponseEntity<>(1,HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(2,HttpStatus.OK);
+        }
+    }
 }

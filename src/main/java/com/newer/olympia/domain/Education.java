@@ -9,7 +9,7 @@ public class Education implements Serializable {
     private static final long serialVersionUID = -8386820846076412162L;
     private Integer Education_id;//id
     private String Education_site;//地点
-    private String Education__time;//一段时间
+    private String Education_time;//一段时间
     private String Education_describe;//描述
     private Integer User_id;//用户id
 
@@ -20,7 +20,7 @@ public class Education implements Serializable {
     public Education(Integer education_id, String education_site, String education__time, String education_describe, Integer user_id) {
         Education_id = education_id;
         Education_site = education_site;
-        Education__time = education__time;
+        Education_time = education__time;
         Education_describe = education_describe;
         User_id = user_id;
     }
@@ -42,11 +42,11 @@ public class Education implements Serializable {
     }
 
     public String getEducation__time() {
-        return Education__time;
+        return Education_time;
     }
 
     public void setEducation__time(String education__time) {
-        Education__time = education__time;
+        Education_time = education__time;
     }
 
     public String getEducation_describe() {
